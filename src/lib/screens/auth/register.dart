@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:src/services/auth.dart';
+import 'package:src/shared/constants.dart';
 
 class Register extends StatefulWidget {
 
@@ -50,7 +51,7 @@ class _RegisterState extends State<Register> {
               onChanged: (val){
                 setState(() => email = val);
               },
-              decoration: const InputDecoration(
+              decoration: textFieldDecoration.copyWith(
                 hintText: 'Email',
               ),
             ),
@@ -60,7 +61,7 @@ class _RegisterState extends State<Register> {
               onChanged: (val){
                 setState(() => password = val);
               },
-              decoration: const InputDecoration(
+              decoration: textFieldDecoration.copyWith(
                 hintText: 'Password',
               ),
               obscureText: true,
