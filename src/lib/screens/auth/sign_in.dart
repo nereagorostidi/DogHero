@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:src/services/auth.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+  final Function toggle;
+
+  const SignIn({super.key, required this.toggle});
 
   @override
   State<SignIn> createState() => _SignInState();
@@ -11,8 +13,12 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
 
   final AuthService _auth = AuthService();
+  final _formkey = GlobalKey<FormState>();
+
   String email = '';
   String password = '';
+  String error = '';
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +28,26 @@ class _SignInState extends State<SignIn> {
         backgroundColor: Colors.teal[800], //placeholder this need to be changed to our color palette
         elevation: 0.0,
         title: const Text('Ingresa a DogHero'),
+        actions: <Widget>[
+          TextButton.icon(
+            onPressed: () {
+              widget.toggle();
+            },
+            icon: const Icon(Icons.person),
+            label: const Text('Registrarse'),
+            
+          ),
+        ],
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-        child: Form(child: Column(
+        child: Form(
+          key: _formkey,
+          child: Column(
           children: [
             const SizedBox(height: 20.0),
             TextFormField(
+              validator: (value) => value!.isEmpty ? 'Ingresa tu email' : null,
               onChanged: (val){
                 setState(() => email = val);
               },
@@ -38,6 +57,7 @@ class _SignInState extends State<SignIn> {
             ),
             const SizedBox(height: 20.0),
             TextFormField(
+              validator: (value) => value!.length < 6 ? 'Tu password debe tener mas de 6 caracteres' : null,
               onChanged: (val){
                 setState(() => password = val);
               },
@@ -49,12 +69,21 @@ class _SignInState extends State<SignIn> {
             const SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () async {
-                print(email);
-                print(password);
+                if (_formkey.currentState!.validate()){
+                  dynamic res = await _auth.signIn(email, password);
+                  if (res == null){
+                    setState( () => error = 'Verifica tus datos e intenta denuevo');
+                  }
+                }
                 //sign in
               },
               child: const Text('Sign in'),
             ),
+            SizedBox(height: 20,),
+            Text(
+              error,
+              style: const TextStyle(color: Colors.red, fontSize: 14),
+            )
           ],
         )
         )

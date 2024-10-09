@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebaseAuth;
-import 'package:src/models/user.dart' as dogheroUser;
+import 'package:src/models/user.dart' as dogheroUser; //alias para evitar ambuiguedad con firebase user
 
 
 class AuthService{
@@ -18,9 +18,29 @@ Stream<dogheroUser.User?> get user {
 
   
   //sign in with email and pass
+  Future signIn(String email, String password) async{
+    try {
+      firebaseAuth.UserCredential res = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      firebaseAuth.User user = res.user!;
+      return _userfromfirebase(user);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
 
 
   //register with email and pass
+  Future register(String email, String password) async{
+    try {
+      firebaseAuth.UserCredential res = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      firebaseAuth.User user = res.user!;
+      return _userfromfirebase(user);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
 
   //sign out
   Future signOut() async{

@@ -10,10 +10,19 @@ class Auth extends StatefulWidget {
 }
 
 class _AuthState extends State<Auth> {
+
+  bool registered = false;
+
+  void toggleRegistered(){
+    setState(() => registered = !registered);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: const Register( ),
-    );
+      if (registered) {
+        return SignIn(toggle: toggleRegistered);
+      } else {
+        return Register(toggle: toggleRegistered);
+      }
   }
 }
