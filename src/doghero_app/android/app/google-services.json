@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1077133132108",
+    "project_id": "doghero-832db",
+    "storage_bucket": "doghero-832db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1077133132108:android:4a65b3dcf69fb9ca43cfe9",
+        "android_client_info": {
+          "package_name": "com.example.doghero_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHjIT0LAkzj0d8ygWVCpmCKpZ1nU9VDnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

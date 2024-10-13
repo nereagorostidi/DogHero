@@ -1,0 +1,43 @@
+{
+  "dogs": [
+    {
+      "name": "Piper",
+      "adopted": true,
+      "id": 1,
+      "pictures": [],
+      "like_counter": 2,
+      "location": "Viña del Mar, CL",
+      "dogtributes": ["castrado", "microchipeado", "vacunado", "amigable"],
+      "description": "¡Soy un experto en perseguir mi propia cola y en hacer que el sofá se sienta más cómodo con cada siesta! 🐾",
+      "image_url": "https://res.cloudinary.com/dou2d1bee/image/upload/v1728689366/dog_1_main_ldkv66.jpg"
+    },
+    {
+      "name": "Tosca",
+      "adopted": false,
+      "id": 2,
+      "pictures": [
+        "https://res.cloudinary.com/dou2d1bee/image/upload/v1728689366/dog_3_1_yhsttu.jpg",
+        "https://res.cloudinary.com/dou2d1bee/image/upload/v1728689366/dog_3_main_zzusvl.jpg"
+      ],
+      "like_counter": 2,
+      "location": "Concón, CL",
+      "dogtributes": ["castrado", "vacunado", "microchipeado", "amigable"],
+      "description": "¡Si la felicidad tuviera forma, sería una pelota y yo sería el perro que nunca se cansa de perseguirla! 🐶🎾",
+      "image_url": "https://res.cloudinary.com/dou2d1bee/image/upload/v1728689366/dog_3_main_zzusvl.jpg"
+    },
+    {
+      "name": "Sua",
+      "adopted": true,
+      "id": 3,
+      "pictures": [
+        "https://res.cloudinary.com/dou2d1bee/image/upload/v1728689366/dog_2_2_cmpzcg.jpg",
+        "https://res.cloudinary.com/dou2d1bee/image/upload/v1728689366/dog_2_1_ch88lj.jpg"
+      ],
+      "like_counter": 1,
+      "location": "Valparaiso, CL",
+      "dogtributes": ["castrado", "vacunado", "microchipeado"],
+      "description": "¡Soy el guardián del hogar, experto en ladrar a las sombras y en hacer que cada visita sea una fiesta de lamidas! 🐕🎉",
+      "image_url": "https://res.cloudinary.com/dou2d1bee/image/upload/v1728689366/dog_2_main_d232gb.jpg"
+    }
+  ]
+}
