@@ -23,9 +23,9 @@ class DogShowcaseState extends State<DogShowcase>
   initState() {
     super.initState();
     _tabs = [
-      const Tab(text: 'Fotos'),
-      const Tab(text: 'Detalles'),
-      const Tab(text: 'Características'),
+      const Tab(text: 'Pictures'),
+      const Tab(text: 'Details'),
+      const Tab(text: 'DogAtributes'),
     ];
     _pages = [
       PicturesShowcase(widget.dog),

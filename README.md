@@ -1,8 +1,3 @@
-
-# DogHero
-# Nombres
-Teresa Camacho, Nerea Gorostidi y Rodrigo
-
 # doghero_app
 
 A new Flutter project.

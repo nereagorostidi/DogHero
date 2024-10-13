@@ -1,10 +1,6 @@
 //import 'package:meta/meta.dart';
 
-//enum Donortype { protectora, particular }
-
 class Dog {
-  //final Donortype donortype;
-  //final String donorname;
   final int externalId;
   final String name;
   final String description;
@@ -12,15 +8,10 @@ class Dog {
   final String location;
   final int likeCounter;
   final bool isAdopted;
-  final String sex;
-  final String breed;
-  final String color;
   final List<String> pictures;
   final List<String> dogattributes;
 
   Dog({
-    //required this.donortype,
-    //required this.donorname,
     required this.externalId,
     required this.name,
     required this.description,
@@ -28,9 +19,6 @@ class Dog {
     required this.location,
     required this.likeCounter,
     required this.isAdopted,
-    required this.sex,
-    required this.breed,
-    required this.color,
     required this.pictures,
     required this.dogattributes,
   });
@@ -45,9 +33,6 @@ class Dog {
       likeCounter:
           json['like_counter'] != null ? json['like_counter'] as int : 0,
       isAdopted: json['adopted'] != null ? json['adopted'] as bool : false,
-      sex: json['sex'] ?? 'Sin sexo epecificado',
-      color: json['sex'] ?? 'Sin color especificado',
-      breed: json['sex'] ?? 'Sin raza especificada',
       pictures:
           json['pictures'] != null ? List<String>.from(json['pictures']) : [],
       dogattributes: json['dogattributes'] != null

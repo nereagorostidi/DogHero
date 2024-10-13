@@ -3,28 +3,10 @@ import 'package:doghero_app/models/dog.dart';
 import 'package:flutter/material.dart';
 
 final dynamic dogattributeLookup = {
-  "pequeño": {"name": "Pequeño", "icon": FontAwesomeIcons.child},
-  "mediano": {"name": "Mediano", "icon": FontAwesomeIcons.child},
-  "grande": {"name": "Grande", "icon": FontAwesomeIcons.child},
-  "amigable": {"name": "Amigable", "icon": FontAwesomeIcons.child},
-  "castrado": {"name": "Castrado", "icon": FontAwesomeIcons.scissors},
-  "vacunado": {"name": "Vacunado", "icon": FontAwesomeIcons.eyeDropper},
-  "microchipeado": {
-    "name": "Microchipeado",
-    "icon": FontAwesomeIcons.microchip
-  },
-  "fuerte": {"name": "Fuerte", "icon": FontAwesomeIcons.microchip},
-  "leal": {"name": "Leal", "icon": FontAwesomeIcons.microchip},
-  "protector": {"name": "Protector", "icon": FontAwesomeIcons.shield},
-  "juguetona": {"name": "Juguetona", "icon": FontAwesomeIcons.microchip},
-  "curiosa": {"name": "Curiosa", "icon": FontAwesomeIcons.microchip},
-  "valiente": {"name": "Valiente", "icon": FontAwesomeIcons.microchip},
-  "independiente": {
-    "name": "Independiente",
-    "icon": FontAwesomeIcons.microchip
-  },
-  "entrenado": {"name": "Entrenado", "icon": FontAwesomeIcons.microchip},
-  "energético": {"name": "Energético", "icon": FontAwesomeIcons.microchip},
+  "children": {"name": "Kid Friendly", "icon": FontAwesomeIcons.child},
+  "desexed": {"name": "Desexed", "icon": FontAwesomeIcons.scissors},
+  "vaccinated": {"name": "Vaccinated", "icon": FontAwesomeIcons.eyeDropper},
+  "microchipped": {"name": "Microchipped", "icon": FontAwesomeIcons.microchip},
 };
 
 class DogattributesShowcase extends StatelessWidget {
