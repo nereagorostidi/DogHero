@@ -77,6 +77,8 @@ class DogApi {
 
   static Dog _fromMap(Map<String, dynamic> map) {
     return Dog(
+        //donorname: map['donor_name'],
+        //donortype: map['donor_type'],
         externalId: map['id'],
         name: map['name'],
         description: map['description'],
@@ -84,6 +86,9 @@ class DogApi {
         location: map['location'],
         likeCounter: map['like_counter'],
         isAdopted: map['adopted'],
+        sex: map['sex'],
+        color: map['color'],
+        breed: map['breed'],
         pictures: List<String>.from(map['pictures'] ?? []),
         dogattributes: List<String>.from(map['dogattributes'] ?? []));
   }

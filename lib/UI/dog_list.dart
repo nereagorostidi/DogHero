@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doghero_app/models/dog.dart';
 import 'package:doghero_app/services/api.dart';
 import 'package:doghero_app/utils/routes.dart';
@@ -17,9 +17,8 @@ class _DogListState extends State<DogList> {
   //estado mutable
   List<Dog> _dogs =
       []; // lista que se llenará cuando se carguen los datos desde JSON.
-  late DogApi? _api;
-  late NetworkImage _profileImage;
-  bool _isLoading = true;
+  //late DogApi? _api;
+  //late NetworkImage _profileImage;
 
   _loadDogs() async {
     //asincrono por que es una operación que puede tardar un tiempo indeterminado en completarse
@@ -40,21 +39,20 @@ class _DogListState extends State<DogList> {
     }
   }
 
-  _loadFromFirebase() async {
+  /*_loadFromFirebase() async {
     final api = await DogApi
         .signInWithGoogle(); //devuelve CatApi que contiene información sobre el usuario autenticado.
     setState(() {
       _api = api; //Asigna el valor obtenido de signInWithGoogle()
       _profileImage = NetworkImage(api?.firebaseUser?.photoURL ?? "");
-      _isLoading = false;
     });
-  }
+  }*/
 
   @override
   void initState() {
     super.initState();
     _loadDogs();
-    _loadFromFirebase();
+    //_loadFromFirebase();
   }
 
   Widget _buildDogItem(BuildContext context, int index) {
@@ -108,7 +106,7 @@ class _DogListState extends State<DogList> {
 
   Widget _getAppTittleWidget() {
     return const Text(
-      'Dogs',
+      'Lista de perros',
       style: TextStyle(
           color: Colors.white, fontWeight: FontWeight.bold, fontSize: 32.0),
     );
@@ -145,9 +143,9 @@ class _DogListState extends State<DogList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.orange,
-        body: _buildBody(),
-        floatingActionButton: _isLoading
+      backgroundColor: Colors.orange,
+      body: _buildBody(),
+      /*floatingActionButton: _isLoading
             ? null // No muestra el botón mientras carga
             : FloatingActionButton(
                 onPressed: () {},
@@ -158,6 +156,7 @@ class _DogListState extends State<DogList> {
                 child: CircleAvatar(
                   backgroundImage: _profileImage,
                   radius: 50.0,
-                )));
+                ))*/
+    );
   }
 }
