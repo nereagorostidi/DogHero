@@ -33,6 +33,9 @@ class Dog {
       likeCounter:
           json['like_counter'] != null ? json['like_counter'] as int : 0,
       isAdopted: json['adopted'] != null ? json['adopted'] as bool : false,
+      sex: json['sex'] ?? 'Sin sexo epecificado',
+      color: json['color'] ?? 'Sin color especificado',
+      breed: json['breed'] ?? 'Sin raza especificada',
       pictures:
           json['pictures'] != null ? List<String>.from(json['pictures']) : [],
       dogattributes: json['dogattributes'] != null
