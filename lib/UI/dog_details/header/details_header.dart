@@ -72,7 +72,7 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
               onPressed: () async {
                 //TODO Handle Adopt
               },
-              child: const Text('ADOPT ME'),
+              child: const Text('ADOPTAME'),
             ),
           ),
           ClipRRect(
@@ -85,7 +85,7 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
               onPressed: () async {
                 //TODO Handle Like
               },
-              child: const Text('LIKE'),
+              child: const Text('ME GUSTA'),
             ),
           ),
         ],

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:doghero_app/UI/dog_list.dart';
 import 'package:doghero_app/UI/test.dart';
 import 'package:doghero_app/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +17,13 @@ class Home extends StatelessWidget {
       value: DatabaseService(uid: '').users,
       initialData: null,
       child: Scaffold(
-        backgroundColor: Colors.orange, //placeholder this need to be changed to our color palette
+        backgroundColor: Colors
+            .orange, //placeholder this need to be changed to our color palette
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 87, 88, 88), //placeholder this need to be changed to our color palette
+          backgroundColor: const Color.fromARGB(255, 87, 88,
+              88), //placeholder this need to be changed to our color palette
           elevation: 0.0,
-          title: const Text('DogHero'),   
+          title: const Text('DogHero'),
           actions: <Widget>[
             TextButton.icon(
               onPressed: () async {
@@ -76,7 +79,7 @@ class Home extends StatelessWidget {
                       IconButton(
                         icon: const Icon(Icons.settings),
                         onPressed: () {
-                          // 
+                          //
                         },
                       ),
                       const Text('Preferencias'),
@@ -89,7 +92,9 @@ class Home extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Test()), //placeholder, but i set it to test cuz the dog_list tries to sign in with google on opening, virtually the same but without the google sign in
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    DogList()), //placeholder, but i set it to test cuz the dog_list tries to sign in with google on opening, virtually the same but without the google sign in
                           );
                         },
                       ),
@@ -101,7 +106,7 @@ class Home extends StatelessWidget {
                       IconButton(
                         icon: const Icon(Icons.question_mark),
                         onPressed: () {
-                          // 
+                          //
                         },
                       ),
                       const Text('Placeholder'),

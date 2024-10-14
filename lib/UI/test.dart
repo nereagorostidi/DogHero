@@ -27,18 +27,26 @@ class _TestState extends State<Test> {
     }
   }
 
-  Future<void> _addDog() async { //only for testing, add the dog to the db
+  Future<void> _addDog() async {
+    //only for testing, add the dog to the db
     try {
-      await FirebaseFirestore.instance.collection('dogs').add({
-    "name": "Dalinar",
-    "adopted": false,
-    "pictures": ["https://firebasestorage.googleapis.com/v0/b/doghero-832db.appspot.com/o/dalinar.jpg?alt=media&token=871898d7-cacc-47fe-8748-3eac2b16fc3e","https://firebasestorage.googleapis.com/v0/b/doghero-832db.appspot.com/o/dalinar.jpg?alt=media&token=871898d7-cacc-47fe-8748-3eac2b16fc3e"],
-    "like_counter": 6,
-    "location": "Los Andes, CL",
-    "dogtributes": ["fuerte", "protector", "microchipeado", "leal"],
-    "description": "Soy el guardián de mi hogar, siempre fiel y dispuesto a defender a mi manada con honor. 🐕🛡️",
-    "image_url": "https://firebasestorage.googleapis.com/v0/b/doghero-832db.appspot.com/o/dalinar.jpg?alt=media&token=871898d7-cacc-47fe-8748-3eac2b16fc3e"
-  },);
+      await FirebaseFirestore.instance.collection('dogs').add(
+        {
+          "name": "Dalinar",
+          "adopted": false,
+          "pictures": [
+            "https://firebasestorage.googleapis.com/v0/b/doghero-832db.appspot.com/o/dalinar.jpg?alt=media&token=871898d7-cacc-47fe-8748-3eac2b16fc3e",
+            "https://firebasestorage.googleapis.com/v0/b/doghero-832db.appspot.com/o/dalinar.jpg?alt=media&token=871898d7-cacc-47fe-8748-3eac2b16fc3e"
+          ],
+          "like_counter": 6,
+          "location": "Los Andes, CL",
+          "dogtributes": ["fuerte", "protector", "microchipeado", "leal"],
+          "description":
+              "Soy el guardián de mi hogar, siempre fiel y dispuesto a defender a mi manada con honor. 🐕🛡️",
+          "image_url":
+              "https://firebasestorage.googleapis.com/v0/b/doghero-832db.appspot.com/o/dalinar.jpg?alt=media&token=871898d7-cacc-47fe-8748-3eac2b16fc3e"
+        },
+      );
       _loadDogs(); // Refresh the list after adding a new dog
     } catch (e) {
       print(e.toString());
@@ -92,7 +100,7 @@ class _TestState extends State<Test> {
 
   Widget _getAppTittleWidget() {
     return const Text(
-      'Dogs',
+      'Lista de perros',
       style: TextStyle(
           color: Colors.white, fontWeight: FontWeight.bold, fontSize: 32.0),
     );
