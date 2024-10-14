@@ -1,4 +1,5 @@
 import 'package:doghero_app/UI/dog_list.dart';
+import 'package:doghero_app/services/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -18,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen>
     Future.delayed(const Duration(seconds: 3), () {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (_) => const DogList(),
+        builder: (_) => const Wrapper(),
       ));
     });
   }
