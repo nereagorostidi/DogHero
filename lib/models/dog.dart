@@ -2,6 +2,9 @@
 
 class Dog {
   final int externalId;
+  final String sex;
+  final String color;
+  final String breed;
   final String name;
   final String description;
   final String avatarUrl;
@@ -13,6 +16,9 @@ class Dog {
 
   Dog({
     required this.externalId,
+    required this.sex,
+    required this.color,
+    required this.breed,
     required this.name,
     required this.description,
     required this.avatarUrl,

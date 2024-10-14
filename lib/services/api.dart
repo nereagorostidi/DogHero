@@ -78,6 +78,9 @@ class DogApi {
   static Dog _fromMap(Map<String, dynamic> map) {
     return Dog(
         externalId: map['id'],
+        sex: map['sex'],
+        color: map['color'],
+        breed: map['breed'],
         name: map['name'],
         description: map['description'],
         avatarUrl: map['image_url'],
