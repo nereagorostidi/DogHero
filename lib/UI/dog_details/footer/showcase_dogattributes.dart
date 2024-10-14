@@ -10,21 +10,24 @@ final dynamic dogattributeLookup = {
     "name": "microchipeado",
     "icon": FontAwesomeIcons.microchip
   },
-  "fuerte": {"name": "fuerte", "icon": FontAwesomeIcons.microchip},
-  "protector": {"name": "protector", "icon": FontAwesomeIcons.microchip},
-  "leal": {"name": "leal", "icon": FontAwesomeIcons.microchip},
+  "fuerte": {"name": "fuerte", "icon": FontAwesomeIcons.ethereum},
+  "protector": {"name": "protector", "icon": FontAwesomeIcons.shield},
+  "leal": {"name": "leal", "icon": FontAwesomeIcons.star},
   "independiente": {
     "name": "independiente",
     "icon": FontAwesomeIcons.microchip
   },
-  "jugueton": {"name": "jugueton", "icon": FontAwesomeIcons.microchip},
-  "curioso": {"name": "curioso", "icon": FontAwesomeIcons.microchip},
-  "valiente": {"name": "valiente", "icon": FontAwesomeIcons.microchip},
-  "entrenado": {"name": "entrenado", "icon": FontAwesomeIcons.microchip},
-  "energético": {"name": "energético", "icon": FontAwesomeIcons.microchip},
-  "pequeño": {"name": "pequeño", "icon": FontAwesomeIcons.microchip},
-  "mediano": {"name": "mediano", "icon": FontAwesomeIcons.microchip},
-  "grande": {"name": "grande", "icon": FontAwesomeIcons.microchip},
+  "jugueton": {
+    "name": "jugueton",
+    "icon": FontAwesomeIcons.tableTennisPaddleBall
+  },
+  "curioso": {"name": "curioso", "icon": FontAwesomeIcons.eye},
+  "valiente": {"name": "valiente", "icon": FontAwesomeIcons.khanda},
+  "entrenado": {"name": "entrenado", "icon": FontAwesomeIcons.dumbbell},
+  "energetico": {"name": "energético", "icon": FontAwesomeIcons.bolt},
+  "pequeño": {"name": "pequeño", "icon": FontAwesomeIcons.circleDot},
+  "mediano": {"name": "mediano", "icon": FontAwesomeIcons.circleHalfStroke},
+  "grande": {"name": "grande", "icon": FontAwesomeIcons.circle},
 };
 
 class DogattributesShowcase extends StatelessWidget {
