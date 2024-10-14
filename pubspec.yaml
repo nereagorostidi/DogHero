@@ -40,4 +40,5 @@ flutter:
         - asset: fonts/Ubuntu-Bold.ttf
   assets:
     - assets/dogs.json
+    - assets/images/pantalla_splash.jpeg
 

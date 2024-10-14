@@ -1,4 +1,5 @@
-import 'package:doghero_app/UI/dog_list.dart';
+//import 'package:doghero_app/UI/dog_list.dart';
+import 'package:doghero_app/utils/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -15,7 +16,8 @@ class DogHero extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.orange, fontFamily: 'Ubuntu'),
-      home: const DogList(),
+      debugShowCheckedModeBanner: false,
+      home: const SplashScreen(),
     );
   }
 }
