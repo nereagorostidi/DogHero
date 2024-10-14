@@ -5,6 +5,7 @@ import 'package:doghero_app/models/user.dart';
 import 'package:doghero_app/services/auth.dart';
 import 'package:doghero_app/services/wrapper.dart';
 import 'package:doghero_app/utils/splash_screen.dart';
+import 'package:flutter/src/material/theme_data.dart';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,9 +27,15 @@ class DogHero extends StatelessWidget {
         initialData: null,
         child: MaterialApp(
           theme: ThemeData(
-              primarySwatch: Colors.orange,
+
+              /*primaryColor: Color(0xFFFF5722),
+              primaryColorDark: Color(0xFFe64a19),
+              primaryColorLight: Color(0xFFffccbc),
+              secondaryHeaderColor: Color(0xFF757575),
+              dividerColor: Color(0xFFBDBDBD),*/
+              //colorSchemeSeed: Color(0xFF795548),
               fontFamily: 'Ubuntu',
-              useMaterial3: false),
+              useMaterial3: true),
           debugShowCheckedModeBanner: false,
           home: SplashScreen(),
         ));

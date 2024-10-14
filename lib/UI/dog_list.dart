@@ -17,9 +17,6 @@ class _DogListState extends State<DogList> {
   //estado mutable
   List<Dog> _dogs =
       []; // lista que se llenará cuando se carguen los datos desde JSON.
-  late DogApi? _api;
-  late NetworkImage _profileImage;
-  bool _isLoading = true;
 
   _loadDogs() async {
     //asincrono por que es una operación que puede tardar un tiempo indeterminado en completarse
@@ -40,21 +37,10 @@ class _DogListState extends State<DogList> {
     }
   }
 
-  _loadFromFirebase() async {
-    final api = await DogApi
-        .signInWithGoogle(); //devuelve CatApi que contiene información sobre el usuario autenticado.
-    setState(() {
-      _api = api; //Asigna el valor obtenido de signInWithGoogle()
-      _profileImage = NetworkImage(api?.firebaseUser?.photoURL ?? "");
-      _isLoading = false;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
     _loadDogs();
-    _loadFromFirebase();
   }
 
   Widget _buildDogItem(BuildContext context, int index) {
@@ -108,7 +94,7 @@ class _DogListState extends State<DogList> {
 
   Widget _getAppTittleWidget() {
     return const Text(
-      'Dogs',
+      'Listado de perros',
       style: TextStyle(
           color: Colors.white, fontWeight: FontWeight.bold, fontSize: 32.0),
     );
@@ -145,19 +131,8 @@ class _DogListState extends State<DogList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.orange,
-        body: _buildBody(),
-        floatingActionButton: _isLoading
-            ? null // No muestra el botón mientras carga
-            : FloatingActionButton(
-                onPressed: () {},
-                tooltip: _api != null
-                    ? 'Signed in: ${_api?.firebaseUser?.displayName}'
-                    : 'Not signed-in',
-                backgroundColor: Colors.green,
-                child: CircleAvatar(
-                  backgroundImage: _profileImage,
-                  radius: 50.0,
-                )));
+      backgroundColor: Colors.orange,
+      body: _buildBody(),
+    );
   }
 }
