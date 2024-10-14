@@ -1,3 +1,4 @@
+import 'package:doghero_app/services/db.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebaseAuth;
 import 'package:doghero_app/models/user.dart' as dogheroUser; //alias para evitar ambuiguedad con firebase user
 
@@ -35,6 +36,8 @@ Stream<dogheroUser.User?> get user {
     try {
       firebaseAuth.UserCredential res = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       firebaseAuth.User user = res.user!;
+      await DatabaseService(uid: user.uid).updateUserData('new user', 0, 'location');
+      print("user created");
       return _userfromfirebase(user);
     } catch (e) {
       print(e.toString());

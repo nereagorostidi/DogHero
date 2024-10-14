@@ -1,5 +1,6 @@
 import 'package:doghero_app/UI/dog_list.dart';
 import 'package:doghero_app/UI/auth/login.dart';
+import 'package:doghero_app/injection.dart';
 import 'package:doghero_app/models/user.dart';
 import 'package:doghero_app/services/auth.dart';
 import 'package:doghero_app/services/wrapper.dart';

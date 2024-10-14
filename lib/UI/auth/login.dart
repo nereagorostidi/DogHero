@@ -1,6 +1,7 @@
 import 'package:doghero_app/UI/auth/register.dart';
 import 'package:doghero_app/services/auth.dart';
 import 'package:doghero_app/utils/constants.dart';
+import 'package:doghero_app/utils/resource.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
@@ -19,6 +20,9 @@ class _LoginState extends State<Login> {
   String email = '';
   String password = '';
   String error = '';
+
+  Resource _response = Init();
+
 
   @override
   Widget build(BuildContext context) {
