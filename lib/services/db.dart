@@ -15,4 +15,9 @@ class DatabaseService{
       'firstTime': true,
     });
   }
+
+  //stream to get user data and change it later
+  Stream<QuerySnapshot> get users{
+    return userCollection.snapshots();
+  }
 }
