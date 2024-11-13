@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 const textFieldDecoration = InputDecoration(
@@ -5,3 +6,5 @@ const textFieldDecoration = InputDecoration(
                   borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0), width: 2.0) //placeholder this need to be changed to our color palette
                 )
 );
+
+

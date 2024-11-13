@@ -7,13 +7,17 @@ class DatabaseService{
 
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
 
-  Future updateUserData(String name, int prefDogSize, String location, bool firstTime) async{
+  Future updateUserData(String name, int number, String location) async{ //check for first time missing
     return await userCollection.doc(uid).set({
       'name': name,
-      'prefDogSize': prefDogSize,
       'location': location,
-      'firstTime': true,
+      'phone': number,
     });
+  }
+
+  Future<String?> getUserName() async {
+    DocumentSnapshot doc = await userCollection.doc(uid).get();
+    return doc['name'];
   }
 
   //stream to get user data and change it later

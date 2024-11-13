@@ -36,7 +36,7 @@ Stream<dogheroUser.User?> get user {
     try {
       firebaseAuth.UserCredential res = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       firebaseAuth.User user = res.user!;
-      await DatabaseService(uid: user.uid).updateUserData('new user', 0, 'location', true);
+      await DatabaseService(uid: user.uid).updateUserData('new user', 0, 'location');// missing 1st time check
       print("user created");
       return _userfromfirebase(user);
     } catch (e) {

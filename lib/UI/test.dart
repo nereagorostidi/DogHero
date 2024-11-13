@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:doghero_app/UI/dog_list.dart';
+import 'package:doghero_app/UI/home.dart';
 import 'package:doghero_app/models/dog.dart';
 import 'package:doghero_app/services/api.dart';
 import 'package:doghero_app/utils/routes.dart';
 import 'package:doghero_app/UI/dog_details/details_page.dart';
 import 'package:flutter/material.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class Test extends StatefulWidget {
   const Test({super.key});
@@ -14,40 +17,24 @@ class Test extends StatefulWidget {
 }
 
 class _TestState extends State<Test> {
-  List<Dog> _dogs = [];
+  //estado mutable
+  List<Dog> _dogs =
+      []; // lista que se llenará cuando se carguen los datos desde JSON.
 
   _loadDogs() async {
+    //asincrono por que es una operación que puede tardar un tiempo indeterminado en completarse
+    /*String fileData = await DefaultAssetBundle.of(context).loadString(
+        "assets/dogs.json"); //permite acceder a los recursos o assets incluidos en el proyecto
+    setState(() {
+      _dogs = DogApi.allDogsFromJson(
+          fileData); //almacenas la información de cada gato en la lista
+    });*/
+
     try {
       List<Dog> dogs = await DogApi.allDogsFromFirestore();
       setState(() {
         _dogs = dogs;
       });
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future<void> _addDog() async {
-    //only for testing, add the dog to the db
-    try {
-      await FirebaseFirestore.instance.collection('dogs').add(
-        {
-          "name": "Dalinar",
-          "adopted": false,
-          "pictures": [
-            "https://firebasestorage.googleapis.com/v0/b/doghero-832db.appspot.com/o/dalinar.jpg?alt=media&token=871898d7-cacc-47fe-8748-3eac2b16fc3e",
-            "https://firebasestorage.googleapis.com/v0/b/doghero-832db.appspot.com/o/dalinar.jpg?alt=media&token=871898d7-cacc-47fe-8748-3eac2b16fc3e"
-          ],
-          "like_counter": 6,
-          "location": "Los Andes, CL",
-          "dogtributes": ["fuerte", "protector", "microchipeado", "leal"],
-          "description":
-              "Soy el guardián de mi hogar, siempre fiel y dispuesto a defender a mi manada con honor. 🐕🛡️",
-          "image_url":
-              "https://firebasestorage.googleapis.com/v0/b/doghero-832db.appspot.com/o/dalinar.jpg?alt=media&token=871898d7-cacc-47fe-8748-3eac2b16fc3e"
-        },
-      );
-      _loadDogs(); // Refresh the list after adding a new dog
     } catch (e) {
       print(e.toString());
     }
@@ -62,45 +49,56 @@ class _TestState extends State<Test> {
   Widget _buildDogItem(BuildContext context, int index) {
     Dog dog = _dogs[index];
     return Container(
-      margin: const EdgeInsets.only(top: 5.0),
+      margin: const EdgeInsets.only(
+          top: 5.0), // añade espacio alrededor del Container
       child: Card(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize
+              .min, // la columna solo ocupará el espacio necesario para mostrar su contenido.
           children: [
             ListTile(
+              //representa una fila que puede ser interactiva
               onTap: () => _navigateToDogDetails(dog, index),
               leading: Hero(
-                tag: index,
+                //widget que permite animaciones entre pantallas
+                tag: index, //debe ser unico
                 child: CircleAvatar(
                   backgroundImage: NetworkImage(dog.avatarUrl),
                 ),
               ),
               title: Text(dog.name,
                   style: const TextStyle(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight
+                        .bold, //grosor del texto, en este caso negrita
                     color: Colors.black,
                   )),
               subtitle: Text(dog.description),
-              isThreeLine: true,
-              dense: false,
+              isThreeLine:
+                  true, //ajustar texto para mostrar tres lineas de texto
+              dense: false, //permite un mayor espacio entre los elementos
             )
           ],
         ),
       ),
     );
+    
   }
 
   void _navigateToDogDetails(Dog dog, Object avatarTag) {
+    // método para navegar a otra pagina
     Navigator.of(context).push(FadePageRoute(
         builder: (c) {
-          return DogDetailsPage(dog, avatarTag: avatarTag);
+          //construye el widget que se mostrará en nueva ruta
+          return DogDetailsPage(dog,
+              avatarTag:
+                  avatarTag); // definimos lo que se mostrará en nueva pagina
         },
-        settings: const RouteSettings()));
+        settings: const RouteSettings())); //proporciona información adicional
   }
 
   Widget _getAppTittleWidget() {
     return const Text(
-      'Lista de perros',
+      'Listado de perros',
       style: TextStyle(
           color: Colors.white, fontWeight: FontWeight.bold, fontSize: 32.0),
     );
@@ -108,15 +106,19 @@ class _TestState extends State<Test> {
 
   Future<void> refresh() {
     _loadDogs();
-    return Future<void>.value();
+    return Future<void>.value(); //la operacion se ha completado
   }
 
   Widget _getListViewWidget() {
     return Flexible(
+        //permite que su hijo (el ListView) se ajuste y ocupe el espacio disponible dentro de su padre
         child: RefreshIndicator(
+            //proporciona la funcionalidad de "pull to refresh" (deslizar hacia abajo para refrescar) en el ListView
             onRefresh: refresh,
             child: ListView.builder(
-              physics: const AlwaysScrollableScrollPhysics(),
+              physics:
+                  const AlwaysScrollableScrollPhysics(), //la lista siempre se puede desplazar
+              //siempre podremos hacer "pull to refresh"
               itemCount: _dogs.length,
               itemBuilder: _buildDogItem,
             )));
@@ -130,14 +132,44 @@ class _TestState extends State<Test> {
         ));
   }
 
+  int _page = 1;
+  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.orange,
-        body: _buildBody(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _addDog,
-          child: const Icon(Icons.add),
-        ));
+      backgroundColor: Colors.orange,
+      //appbar
+      body: _buildBody(),
+      bottomNavigationBar: CurvedNavigationBar(
+              key: _bottomNavigationKey,
+              index: 1,
+              backgroundColor: const Color.fromARGB(255, 87, 88,
+                  88), //placeholder this need to be changed to our color palette
+              items: const <Widget>[
+                Icon(Icons.home, size: 30),
+                Icon(Icons.list, size: 30),
+                Icon(Icons.add, size: 30),
+              ],
+              onTap: (index) {
+                setState(() {
+                  _page = index;
+                  if (index == 1) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => Test()),
+                    );
+                  }
+                  else if (index == 0) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => Home()),
+                    );
+                  }
+                });
+              },
+              letIndexChange: (value) => true,
+            )
+    );
   }
 }
