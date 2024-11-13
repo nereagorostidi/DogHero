@@ -27,15 +27,14 @@ class DogHero extends StatelessWidget {
         initialData: null,
         child: MaterialApp(
           theme: ThemeData(
-
-              /*primaryColor: Color(0xFFFF5722),
+              primaryColor: Color(0xFFFF5722),
               primaryColorDark: Color(0xFFe64a19),
               primaryColorLight: Color(0xFFffccbc),
               secondaryHeaderColor: Color(0xFF757575),
-              dividerColor: Color(0xFFBDBDBD),*/
+              dividerColor: Color(0xFFBDBDBD),
               //colorSchemeSeed: Color(0xFF795548),
               fontFamily: 'Ubuntu',
-              useMaterial3: true),
+              useMaterial3: false),
           debugShowCheckedModeBanner: false,
           home: SplashScreen(),
         ));

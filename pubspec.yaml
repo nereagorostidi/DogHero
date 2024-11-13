@@ -25,6 +25,7 @@ dependencies:
   provider: ^6.1.2
   get_it: ^8.0.0
   injectable: ^2.5.0
+  curved_navigation_bar: ^1.0.6
 
 
 dev_dependencies:
