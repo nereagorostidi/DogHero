@@ -13,7 +13,6 @@ class Register extends StatefulWidget {
 }
 
 class _Register extends State<Register> {
-
   final _formkey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
   String email = '';
@@ -27,23 +26,22 @@ class _Register extends State<Register> {
         children: [
           ClipPath(
             clipper: OvalBottomBorderClipper(),
-            child: Container(
+            child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.33,
-              color: Colors.orange,
+              //color: Colors.orange,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "Dog Hero",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 60,
-                          fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: 50.0,
+                          ),
                     ),
-                    SizedBox(height: 10), 
-                    Image(
-                      image: const AssetImage('assets/Logo.png'),
+                    const SizedBox(height: 10),
+                    const Image(
+                      image: AssetImage('assets/Logo.png'),
                       height: 150,
                       width: 150,
                     ),
@@ -55,10 +53,13 @@ class _Register extends State<Register> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Container(
-              child: Text("Registrate en DogHero", style: TextStyle(
-                fontFamily: 'Ubuntu',
-                fontSize: 30,
-              ),),
+              child: const Text(
+                "Registrate en DogHero",
+                style: TextStyle(
+                  fontFamily: 'Ubuntu',
+                  fontSize: 30,
+                ),
+              ),
             ),
           ),
           Container(
@@ -74,30 +75,33 @@ class _Register extends State<Register> {
                     },
                     decoration: textFieldDecoration.copyWith(
                       hintText: 'Email',
-                      suffixIcon: Icon(Icons.email),
+                      suffixIcon: const Icon(Icons.email),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextFormField(
-                    validator: (val) => val!.length < 6 ? 'Enter a password 6+ chars long' : null,
+                    validator: (val) => val!.length < 6
+                        ? 'Enter a password 6+ chars long'
+                        : null,
                     onChanged: (val) {
                       setState(() => password = val);
                     },
                     decoration: textFieldDecoration.copyWith(
                       hintText: 'Password',
-                      suffixIcon: Icon(Icons.lock),
+                      suffixIcon: const Icon(Icons.lock),
                     ),
                     obscureText: true,
                   ),
-                  SizedBox(height: 20),
-                  Container(
+                  const SizedBox(height: 20),
+                  SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () async {
                         if (_formkey.currentState!.validate()) {
                           dynamic res = await _auth.register(email, password);
                           if (res == null) {
-                            setState(() => error = 'Verifica tus credenciales y intenta de nuevo');
+                            setState(() => error =
+                                'Verifica tus credenciales y intenta de nuevo');
                           }
                         }
                       },
@@ -106,27 +110,27 @@ class _Register extends State<Register> {
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                       ),
-                      child: Text('Register'),
+                      child: const Text('Register'),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () async {
-                          widget.toggleRegistered();
+                        widget.toggleRegistered();
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                       ),
-                      child: Text('Ir a la pagina de ingreso'),
+                      child: const Text('Ir a la pagina de ingreso'),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   Text(
                     error,
-                    style: TextStyle(color: Colors.red, fontSize: 14),
+                    style: const TextStyle(color: Colors.red, fontSize: 14),
                   )
                 ],
               ),
