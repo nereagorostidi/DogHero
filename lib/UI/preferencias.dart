@@ -22,7 +22,7 @@ class _PreferenciasState extends State<Preferencias> {
   String _name = '';
   int _number = 0;
   String _location = '';
-  int _prefDogSize = 0;
+  final int _prefDogSize = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +32,13 @@ class _PreferenciasState extends State<Preferencias> {
       child: Consumer<User?>(
         builder: (context, user, _) {
           return Scaffold(
-            backgroundColor: Colors.orange,
+            //backgroundColor: Colors.orange,
             appBar: AppBar(
-              backgroundColor: const Color.fromARGB(255, 87, 88, 88),
+              //backgroundColor: const Color.fromARGB(255, 87, 88, 88),
               elevation: 0.0,
               title: const Text('DogHero- Datos Personales'),
             ),
-            body: Container(
+            body: SizedBox(
               width: double.infinity,
               height: double.infinity,
               child: SingleChildScrollView(
@@ -51,7 +51,7 @@ class _PreferenciasState extends State<Preferencias> {
                         style: TextStyle(
                           fontSize: 25.0,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          //color: Colors.white,
                         ),
                       ),
                     ),
@@ -64,7 +64,7 @@ class _PreferenciasState extends State<Preferencias> {
                             TextFormField(
                               decoration: textFieldDecoration.copyWith(
                                 hintText: 'Nombre',
-                                suffixIcon: Icon(Icons.person),
+                                suffixIcon: const Icon(Icons.person),
                               ),
                               validator: (val) =>
                                   val!.isEmpty ? 'Introduce un nombre' : null,
@@ -76,10 +76,11 @@ class _PreferenciasState extends State<Preferencias> {
                             TextFormField(
                               decoration: textFieldDecoration.copyWith(
                                 hintText: 'Ubicación',
-                                suffixIcon: Icon(Icons.location_on),
+                                suffixIcon: const Icon(Icons.location_on),
                               ),
-                              validator: (val) =>
-                                  val!.isEmpty ? 'Introduce una ubicación' : null,
+                              validator: (val) => val!.isEmpty
+                                  ? 'Introduce una ubicación'
+                                  : null,
                               onChanged: (val) {
                                 setState(() => _location = val);
                               },
@@ -88,13 +89,14 @@ class _PreferenciasState extends State<Preferencias> {
                             TextFormField(
                               decoration: textFieldDecoration.copyWith(
                                 hintText: 'Numero de Telefono',
-                                suffixIcon: Icon(Icons.phone),
+                                suffixIcon: const Icon(Icons.phone),
                               ),
                               validator: (val) => val!.isEmpty
                                   ? 'Introduce un numero de telefono'
                                   : null,
                               onChanged: (val) {
-                                setState(() => _number = int.tryParse(val) ?? 0);
+                                setState(
+                                    () => _number = int.tryParse(val) ?? 0);
                               },
                             ),
                             const SizedBox(height: 20.0),
@@ -102,12 +104,13 @@ class _PreferenciasState extends State<Preferencias> {
                               style: ElevatedButton.styleFrom(),
                               child: const Text(
                                 'Guardar',
-                                style: TextStyle(color: Colors.white),
+                                //style: TextStyle(color: Colors.white),
                               ),
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   await DatabaseService(uid: user!.uid)
-                                      .updateUserData(_name, _number, _location);
+                                      .updateUserData(
+                                          _name, _number, _location);
                                 }
                               },
                             ),

@@ -4,18 +4,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 
 class AuthRepImp implements AuthRep {
-
-  FirebaseAuth _firebaseAuth;
+  final FirebaseAuth _firebaseAuth;
   AuthRepImp(this._firebaseAuth);
 
   @override
-  Future<Resource> login({required String email, required String password}) async {
+  Future<Resource> login(
+      {required String email, required String password}) async {
     try {
-      UserCredential data = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      UserCredential data = await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
       return Success(data);
     } on FirebaseAuthException catch (e) {
       return Error(e.message ?? "Error al iniciar sesión");
-      
     }
   }
 }
