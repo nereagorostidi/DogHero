@@ -64,7 +64,7 @@ class DogApi {
         await FirebaseFirestore.instance.collection('dogs').get();
 
     return snapshot.docs.map((doc) {
-      return Dog.fromJson(doc.data() as Map<String, dynamic>);
+      return Dog.fromJson(doc.data() as Map<String, dynamic>, doc.id);
     }).toList();
   }
 
@@ -77,6 +77,7 @@ class DogApi {
 
   static Dog _fromMap(Map<String, dynamic> map) {
     return Dog(
+        id: "",
         externalId: map['id'],
         sex: map['sex'],
         color: map['color'],
@@ -88,6 +89,12 @@ class DogApi {
         likeCounter: map['like_counter'],
         isAdopted: map['adopted'],
         pictures: List<String>.from(map['pictures'] ?? []),
-        dogattributes: List<String>.from(map['dogattributes'] ?? []));
+        dogattributes: List<String>.from(map['dogattributes'] ?? []),
+        donationContactEmail: map['donation_contact_email'],
+        status: map['status'],
+        age: map['age'],
+        size: map['size'],
+        energyLevel: map['energy_level'],
+    );
   }
 }
