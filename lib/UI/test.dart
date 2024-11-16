@@ -21,7 +21,8 @@ class Test extends StatefulWidget {
 
 class _TestState extends State<Test> {
   //estado mutable
-  List<Dog> _dogs = []; // lista que se llenará cuando se carguen los datos desde JSON.
+  List<Dog> _dogs =
+      []; // lista que se llenará cuando se carguen los datos desde JSON.
   List<Dog> _filteredDogs = [];
   List<Dog> _searchFilteredDogs = [];
   Set<String> _selectedSex = {};
@@ -65,11 +66,12 @@ class _TestState extends State<Test> {
       final descriptionLower = dog.description.toLowerCase();
 
       // Apply the search filter
-      bool matchesSearch = nameLower.contains(searchLower) || descriptionLower.contains(searchLower);
+      bool matchesSearch = nameLower.contains(searchLower) ||
+          descriptionLower.contains(searchLower);
 
       // Both conditions (search + filters) must be true
       return matchesSearch;
-          // && matchesFilters;
+      // && matchesFilters;
     }).toList();
 
     setState(() {
@@ -84,28 +86,31 @@ class _TestState extends State<Test> {
     required Set<String> selectedEnergyLevel,
   }) {
     final filtered = _dogs.where((dog) {
-
       final sexLower = dog.sex.toLowerCase();
       final sizeLower = dog.size.toLowerCase();
       final ageLower = dog.age.toLowerCase();
       final energyLevelLower = dog.energyLevel.toLowerCase();
 
       final selectedSexLower = selectedSex.map((e) => e.toLowerCase()).toSet();
-      final selectedSizeLower = selectedSize.map((e) => e.toLowerCase()).toSet();
+      final selectedSizeLower =
+          selectedSize.map((e) => e.toLowerCase()).toSet();
       final selectedAgeLower = selectedAge.map((e) => e.toLowerCase()).toSet();
-      final selectedEnergyLevelLower = selectedEnergyLevel.map((e) => e.toLowerCase()).toSet();
+      final selectedEnergyLevelLower =
+          selectedEnergyLevel.map((e) => e.toLowerCase()).toSet();
 
-      return (selectedSexLower.isEmpty || selectedSexLower.contains(sexLower)) &&
-          (selectedSizeLower.isEmpty || selectedSizeLower.contains(sizeLower)) &&
+      return (selectedSexLower.isEmpty ||
+              selectedSexLower.contains(sexLower)) &&
+          (selectedSizeLower.isEmpty ||
+              selectedSizeLower.contains(sizeLower)) &&
           (selectedAgeLower.isEmpty || selectedAgeLower.contains(ageLower)) &&
-          (selectedEnergyLevelLower.isEmpty || selectedEnergyLevelLower.contains(energyLevelLower));
+          (selectedEnergyLevelLower.isEmpty ||
+              selectedEnergyLevelLower.contains(energyLevelLower));
     }).toList();
 
     setState(() {
       _filteredDogs = filtered;
       _searchFilteredDogs = filtered;
     });
-
   }
 
   void _navigateToFilterScreen() async {
@@ -126,7 +131,8 @@ class _TestState extends State<Test> {
         _selectedSex = selectedFilters['sex'] ?? _selectedSex;
         _selectedSize = selectedFilters['size'] ?? _selectedSize;
         _selectedAge = selectedFilters['age'] ?? _selectedAge;
-        _selectedEnergyLevel = selectedFilters['energyLevel'] ?? _selectedEnergyLevel;
+        _selectedEnergyLevel =
+            selectedFilters['energyLevel'] ?? _selectedEnergyLevel;
       });
 
       _filterDogs(
@@ -135,8 +141,7 @@ class _TestState extends State<Test> {
         selectedSize: selectedFilters['size'],
         selectedEnergyLevel: selectedFilters['energyLevel'],
       );
-    }
-    else{
+    } else {
       setState(() {
         _filteredDogs = _dogs;
       });
@@ -202,7 +207,8 @@ class _TestState extends State<Test> {
     return Text('LISTADO DE PERROS',
         style: Theme.of(context)
             .textTheme
-            .bodyLarge // Usa bodyLarge para el texto principal
+            .bodyLarge!
+            .copyWith(fontSize: 18.0) // Usa bodyLarge para el texto principal
         /*style: TextStyle(
           color: Colors.white, fontWeight: FontWeight.bold, fontSize: 32.0),*/
         );
@@ -218,8 +224,7 @@ class _TestState extends State<Test> {
         child: RefreshIndicator(
             onRefresh: refresh,
             child: ListView.builder(
-              physics:
-                  const AlwaysScrollableScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               itemCount: _filteredDogs.length,
               padding: EdgeInsets.zero,
               itemBuilder: _buildDogItem,
@@ -232,34 +237,40 @@ class _TestState extends State<Test> {
         child: Column(
           children: [
             _getAppTittleWidget(),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
                   Expanded(
                     child: TextFormField(
-                      validator: (val) => val!.isEmpty ? 'Enter an email' : null,
+                      validator: (val) =>
+                          val!.isEmpty ? 'Enter an email' : null,
                       onChanged: _filterDogsSearch,
                       decoration: textFieldDecoration.copyWith(
-                        filled: true,
-                        fillColor: Colors.white,
+                        //filled: true,
+                        //fillColor: Colors.white,
                         hintText: 'Search',
                       ),
                     ),
                   ),
-                  const SizedBox(width: 20,),
+                  const SizedBox(
+                    width: 20,
+                  ),
                   GestureDetector(
                     onTap: _navigateToFilterScreen,
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(11),
                       ),
                       child: const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Icon(
                           Icons.filter_alt,
+                          color: Colors.black45,
                         ),
                       ),
                     ),
@@ -278,38 +289,40 @@ class _TestState extends State<Test> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange,
-      //appbar
-      body: _buildBody(),
-      bottomNavigationBar: CurvedNavigationBar(
-              key: _bottomNavigationKey,
-              index: 1,
-              backgroundColor: const Color.fromARGB(255, 87, 88,
-                  88), //placeholder this need to be changed to our color palette
-              items: const <Widget>[
-                Icon(Icons.home, size: 30),
-                Icon(Icons.list, size: 30),
-                Icon(Icons.add, size: 30),
-              ],
-              onTap: (index) {
-                setState(() {
-                  _page = index;
-                  if (index == 1) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Test()),
-                    );
-                  }
-                  else if (index == 0) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => Home()),
-                    );
-                  }
-                });
-              },
-              letIndexChange: (value) => true,
-            )
-    );
+        //backgroundColor: Colors.orange,
+        //appbar
+        body: _buildBody(),
+        bottomNavigationBar: CurvedNavigationBar(
+          key: _bottomNavigationKey,
+          index: 1,
+          backgroundColor: const Color.fromARGB(255, 87, 88,
+              88), //placeholder this need to be changed to our color palette
+          items: const <Widget>[
+            Icon(
+              Icons.home,
+              size: 30,
+              color: Colors.black45,
+            ),
+            Icon(Icons.list, size: 30, color: Colors.black45),
+            Icon(Icons.add, size: 30, color: Colors.black45),
+          ],
+          onTap: (index) {
+            setState(() {
+              _page = index;
+              if (index == 1) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Test()),
+                );
+              } else if (index == 0) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Home()),
+                );
+              }
+            });
+          },
+          letIndexChange: (value) => true,
+        ));
   }
 }

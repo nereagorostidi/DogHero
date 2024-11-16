@@ -115,12 +115,17 @@ class _HomeState extends State<Home> {
                       key: _bottomNavigationKey,
                       index: _page,
                       animationDuration: const Duration(milliseconds: 200),
+                      backgroundColor: const Color.fromARGB(255, 87, 88, 88),
                       height: 50.0,
                       //backgroundColor: const Color.fromARGB(255, 87, 88, 88),
                       items: const <Widget>[
-                        Icon(Icons.home, size: 30),
-                        Icon(Icons.list, size: 30),
-                        Icon(Icons.add, size: 30),
+                        Icon(
+                          Icons.home,
+                          size: 30,
+                          color: Colors.black45,
+                        ),
+                        Icon(Icons.list, size: 30, color: Colors.black45),
+                        Icon(Icons.add, size: 30, color: Colors.black45),
                       ],
                       onTap: (index) {
                         setState(() {
