@@ -9,7 +9,7 @@ class DarkThemeColors {
   static const Color primaryTextColor =
       Color.fromARGB(255, 211, 210, 210); // Blanco para el texto principal
   static const Color secondaryTextColor =
-      Color.fromARGB(255, 139, 139, 139); // Gris claro para el texto secundario
+      Color.fromARGB(255, 213, 210, 210); // Gris claro para el texto secundario
   static const Color dividerColor =
       Color(0xFFBDBDBD); // Gris claro para divisores
 
@@ -80,8 +80,7 @@ final ThemeData darkTheme = ThemeData(
   ),
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
-    fillColor:
-        const Color.fromARGB(255, 196, 143, 124), // Fondo del cuadro de texto
+    fillColor: DarkThemeColors.surfaceColor, // Fondo del cuadro de texto
     hintStyle: const TextStyle(
       color: DarkThemeColors.secondaryTextColor, // Placeholder gris claro
     ),
