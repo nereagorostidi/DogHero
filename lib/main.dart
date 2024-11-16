@@ -1,11 +1,8 @@
-import 'package:doghero_app/UI/dog_list.dart';
-import 'package:doghero_app/UI/auth/login.dart';
-import 'package:doghero_app/injection.dart';
+import 'package:doghero_app/config/dark_theme.dart';
+import 'package:doghero_app/config/ligth_theme.dart';
 import 'package:doghero_app/models/user.dart';
 import 'package:doghero_app/services/auth.dart';
-import 'package:doghero_app/services/wrapper.dart';
 import 'package:doghero_app/utils/splash_screen.dart';
-import 'package:flutter/src/material/theme_data.dart';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,7 +23,7 @@ class DogHero extends StatelessWidget {
         value: AuthService().user,
         initialData: null,
         child: MaterialApp(
-          theme: ThemeData(
+          /*theme: ThemeData(
               primaryColor: Color(0xFFFF5722),
               primaryColorDark: Color(0xFFe64a19),
               primaryColorLight: Color(0xFFffccbc),
@@ -34,9 +31,13 @@ class DogHero extends StatelessWidget {
               dividerColor: Color(0xFFBDBDBD),
               //colorSchemeSeed: Color(0xFF795548),
               fontFamily: 'Ubuntu',
-              useMaterial3: false),
+              useMaterial3: false),*/
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          themeMode: ThemeMode
+              .system, // Cambia automáticamente entre light y dark según el sistema
           debugShowCheckedModeBanner: false,
-          home: SplashScreen(),
+          home: const SplashScreen(),
         ));
   }
 }

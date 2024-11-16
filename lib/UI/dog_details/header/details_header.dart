@@ -108,17 +108,17 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
         children: [
           const Icon(
             Icons.thumb_up,
-            color: Colors.white,
+            //color: Colors.white,
             size: 16.0,
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(
               widget.dog.likeCounter.toString(),
-              style: Theme.of(context)
+              /*style: Theme.of(context)
                   .textTheme
                   .bodyLarge
-                  ?.copyWith(color: Colors.white),
+                  ?.copyWith(color: Colors.white),*/
             ),
           )
         ],
@@ -139,7 +139,7 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
             child: MaterialButton(
               minWidth: 140.0,
               color: Theme.of(context).colorScheme.secondary,
-              textColor: Colors.white,
+              //textColor: Colors.white,
               onPressed: () async {
                 //TODO Handle Adopt
                 sendEmail();
@@ -151,9 +151,9 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
             borderRadius: BorderRadius.circular(30.0),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.lightGreen,
-              ),
+                  //foregroundColor: Colors.white,
+                  //backgroundColor: Colors.lightGreen,
+                  ),
               onPressed: () async {
                 //TODO Handle Like
               },
@@ -180,7 +180,7 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
         const Positioned(
           top: 26.0,
           left: 4.0,
-          child: BackButton(color: Colors.white),
+          child: BackButton(/*color: Colors.white*/),
         ),
       ],
     );

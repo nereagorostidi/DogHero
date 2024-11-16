@@ -169,12 +169,13 @@ class _TestState extends State<Test> {
                   backgroundImage: NetworkImage(dog.avatarUrl),
                 ),
               ),
-              title: Text(dog.name,
-                  style: const TextStyle(
+              title: Text(
+                dog.name,
+                /*style: const TextStyle(
                     fontWeight: FontWeight
                         .bold, //grosor del texto, en este caso negrita
-                    color: Colors.black,
-                  )),
+                    color: Colors.black,)*/
+              ),
               subtitle: Text(dog.description),
               isThreeLine:
                   true, //ajustar texto para mostrar tres lineas de texto
@@ -184,7 +185,6 @@ class _TestState extends State<Test> {
         ),
       ),
     );
-    
   }
 
   void _navigateToDogDetails(Dog dog, Object avatarTag) {
@@ -199,11 +199,13 @@ class _TestState extends State<Test> {
   }
 
   Widget _getAppTittleWidget() {
-    return const Text(
-      'Listado de perros',
-      style: TextStyle(
-          color: Colors.white, fontWeight: FontWeight.bold, fontSize: 32.0),
-    );
+    return Text('LISTADO DE PERROS',
+        style: Theme.of(context)
+            .textTheme
+            .bodyLarge // Usa bodyLarge para el texto principal
+        /*style: TextStyle(
+          color: Colors.white, fontWeight: FontWeight.bold, fontSize: 32.0),*/
+        );
   }
 
   Future<void> refresh() {
@@ -271,7 +273,7 @@ class _TestState extends State<Test> {
   }
 
   int _page = 1;
-  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+  final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
