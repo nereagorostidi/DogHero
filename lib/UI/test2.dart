@@ -11,7 +11,7 @@ import 'package:doghero_app/UI/preferencias.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class Home extends StatefulWidget {
-  Home({super.key});
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -20,7 +20,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
   int _page = 0;
-  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+  final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -40,13 +40,14 @@ class _HomeState extends State<Home> {
                     (doc) => doc.id == user?.uid,
                     orElse: () => userData.docs.first,
                   );
-                  
+
                   if (userDoc['name'] == 'new user') {
                     // Redirect to preferences page
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => Preferencias()),
+                        MaterialPageRoute(
+                            builder: (context) => const Preferencias()),
                       );
                     });
                   }
@@ -55,25 +56,28 @@ class _HomeState extends State<Home> {
                 return WillPopScope(
                   onWillPop: () async => false,
                   child: Scaffold(
-                    backgroundColor: Colors.orange,
+                    //backgroundColor: Colors.orange,
                     appBar: AppBar(
-                      backgroundColor: const Color.fromARGB(255, 87, 88, 88),
+                      //backgroundColor: const Color.fromARGB(255, 87, 88, 88),
                       elevation: 0.0,
                       title: const Text('DogHero'),
                       actions: <Widget>[
                         PopupMenuButton<String>(
                           onSelected: (String result) async {
                             if (result == 'Salir') {
-                              Navigator.of(context).popUntil((route) => route.isFirst);
+                              Navigator.of(context)
+                                  .popUntil((route) => route.isFirst);
                               await _auth.signOut();
                             } else if (result == 'Preferencias') {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => Preferencias()),
+                                MaterialPageRoute(
+                                    builder: (context) => const Preferencias()),
                               );
                             }
                           },
-                          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<String>>[
                             const PopupMenuItem<String>(
                               value: 'Preferencias',
                               child: Text('Preferencias'),
@@ -96,26 +100,27 @@ class _HomeState extends State<Home> {
                                 alignment: Alignment.bottomCenter,
                               ),
                             ),
-                            child: Column(
+                            child: const Column(
                               children: <Widget>[
-                                const Text(
+                                Text(
                                   'Bienvenido a DogHero',
-                                  style: TextStyle(
-                                    fontSize: 50.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
+                                  //style: TextStyle(
+                                  //fontSize: 50.0,
+                                  //fontWeight: FontWeight.bold,
+                                  //color: Colors.white,
+                                  //),
                                 ),
-                                const SizedBox(height: 20.0),
-                                const Text(
+                                SizedBox(height: 20.0),
+                                Text(
                                   'Encuentra el mejor cuidador para tu perro',
                                   style: TextStyle(
                                     fontSize: 20.0,
                                     color: Colors.white,
                                   ),
                                 ),
-                                const SizedBox(height: 20.0),
-                                Text("Perros destacados, informacion relevante, tbd")
+                                SizedBox(height: 20.0),
+                                Text(
+                                    "Perros destacados, informacion relevante, tbd")
                               ],
                             ),
                           ),
@@ -125,7 +130,7 @@ class _HomeState extends State<Home> {
                           index: _page,
                           animationDuration: const Duration(milliseconds: 200),
                           height: 50.0,
-                          backgroundColor: const Color.fromARGB(255, 87, 88, 88),
+                          //backgroundColor: const Color.fromARGB(255, 87, 88, 88),
                           items: const <Widget>[
                             Icon(Icons.home, size: 30),
                             Icon(Icons.list, size: 30),
@@ -137,13 +142,14 @@ class _HomeState extends State<Home> {
                               if (index == 1) {
                                 Navigator.pushReplacement(
                                   context,
-                                  MaterialPageRoute(builder: (context) => Test()),
+                                  MaterialPageRoute(
+                                      builder: (context) => const Test()),
                                 );
-                              }
-                              else if (index == 0) {
+                              } else if (index == 0) {
                                 Navigator.pushReplacement(
                                   context,
-                                  MaterialPageRoute(builder: (context) => Home()),
+                                  MaterialPageRoute(
+                                      builder: (context) => Home()),
                                 );
                               }
                             });

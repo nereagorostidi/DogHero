@@ -1,4 +1,3 @@
-import 'package:doghero_app/UI/dog_list.dart';
 import 'package:doghero_app/services/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -37,22 +36,22 @@ class _SplashScreenState extends State<SplashScreen>
       body: Container(
         width: double.infinity, //ocupar toda la pantalla
         decoration: const BoxDecoration(
-          color: Color(0xFF795548),
-        ),
+            //color: Color(0xFF795548),
+            ),
 
         child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
               radius: 75,
-              backgroundImage: AssetImage('assets/images/pantalla_splash.jpeg'),
+              backgroundImage: AssetImage('assets/images/logo_nuevo.jpeg'),
             ),
             SizedBox(height: 20),
             Text(
               'DogHero',
               style: TextStyle(
                   fontStyle: FontStyle.italic,
-                  color: Colors.white,
+                  //color: Colors.white,
                   fontSize: 50),
             ),
           ],

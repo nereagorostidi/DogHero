@@ -42,22 +42,23 @@ class DogattributesShowcase extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             CircleAvatar(
-              backgroundColor: bgColor,
+              //backgroundColor: bgColor,
               radius: 36.0,
               child: Icon(
                 iconData,
-                color: iconColor,
+                //color: iconColor,
                 size: 36.0,
               ),
             ),
             Positioned(
               child: Text(
                 text,
-                style: TextStyle(
+                style: const TextStyle(fontWeight: FontWeight.bold),
+                /*style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 10.0,
                   color: iconColor,
-                ),
+                ),*/
               ),
             ),
           ],

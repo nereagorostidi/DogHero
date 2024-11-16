@@ -23,9 +23,9 @@ class DogShowcaseState extends State<DogShowcase>
   initState() {
     super.initState();
     _tabs = [
-      const Tab(text: 'Fotos'),
-      const Tab(text: 'Detalles'),
-      const Tab(text: 'Características'),
+      const Tab(text: 'FOTOS'),
+      const Tab(text: 'DETALLES'),
+      const Tab(text: 'CARACTERÍSTICAS'),
     ];
     _pages = [
       PicturesShowcase(widget.dog),
@@ -47,7 +47,7 @@ class DogShowcaseState extends State<DogShowcase>
           TabBar(
             controller: _controller,
             tabs: _tabs,
-            indicatorColor: Colors.white,
+            //indicatorColor: Colors.white,
           ),
           SizedBox.fromSize(
             size: const Size.fromHeight(300.0),

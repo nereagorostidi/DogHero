@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doghero_app/models/dog.dart';
 import 'package:doghero_app/services/api.dart';
 import 'package:doghero_app/utils/routes.dart';
@@ -63,12 +62,10 @@ class _DogListState extends State<DogList> {
                   backgroundImage: NetworkImage(dog.avatarUrl),
                 ),
               ),
-              title: Text(dog.name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight
-                        .bold, //grosor del texto, en este caso negrita
-                    color: Colors.black,
-                  )),
+              title: Text(
+                dog.name,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
               subtitle: Text(dog.description),
               isThreeLine:
                   true, //ajustar texto para mostrar tres lineas de texto
@@ -93,11 +90,14 @@ class _DogListState extends State<DogList> {
   }
 
   Widget _getAppTittleWidget() {
-    return const Text(
-      'Listado de perros',
-      style: TextStyle(
-          color: Colors.white, fontWeight: FontWeight.bold, fontSize: 32.0),
-    );
+    return Text('LISTADO DE PERROS',
+        style: Theme.of(context)
+            .textTheme
+            .bodyLarge // Usa bodyLarge para el texto principal
+        );
+
+    /*style: TextStyle(
+          color: Colors.white, fontWeight: FontWeight.bold, fontSize: 32.0),*/
   }
 
   Future<void> refresh() {
@@ -131,7 +131,7 @@ class _DogListState extends State<DogList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange,
+      //backgroundColor: Colors.orange,
       body: _buildBody(),
     );
   }

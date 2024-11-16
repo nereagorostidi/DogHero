@@ -8,33 +8,36 @@ class DetailsShowcase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var textTheme = Theme.of(context).textTheme;
+    //var textTheme = Theme.of(context).textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 10.0,
         ),
         Text(
           dog.sex,
           textAlign: TextAlign.center,
-          style: textTheme.titleLarge?.copyWith(color: Colors.white),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+          //style: textTheme.titleLarge?.copyWith(color: Colors.white),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10.0,
         ),
         Text(
           dog.color,
           textAlign: TextAlign.center,
-          style: textTheme.titleLarge?.copyWith(color: Colors.white),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+          //style: textTheme.titleLarge?.copyWith(color: Colors.white),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10.0,
         ),
         Text(
           dog.breed,
           textAlign: TextAlign.center,
-          style: textTheme.titleLarge?.copyWith(color: Colors.white),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+          //style: textTheme.titleLarge?.copyWith(color: Colors.white),
         ),
       ],
     );

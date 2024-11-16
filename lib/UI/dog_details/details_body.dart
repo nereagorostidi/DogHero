@@ -14,7 +14,7 @@ class DogDetailsBody extends StatelessWidget {
         radius: 16.0,
         child: Icon(
           iconData,
-          color: Colors.white,
+          //color: Colors.white,
           size: 16.0,
         ),
       ),
@@ -30,7 +30,7 @@ class DogDetailsBody extends StatelessWidget {
       children: [
         const Icon(
           Icons.place,
-          color: Colors.white,
+          //color: Colors.white,
           size: 16.0,
         ),
         Padding(
@@ -48,7 +48,7 @@ class DogDetailsBody extends StatelessWidget {
       children: [
         Text(
           dog.name,
-          style: textTheme.headlineSmall?.copyWith(color: Colors.white),
+          //style: textTheme.headlineSmall?.copyWith(color: Colors.white),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
@@ -59,8 +59,7 @@ class DogDetailsBody extends StatelessWidget {
           padding: const EdgeInsets.only(top: 16.0),
           child: Text(
             dog.description,
-            style: textTheme.bodyMedium
-                ?.copyWith(color: Colors.white70, fontSize: 16.0),
+            //style: textTheme.bodyMedium?.copyWith(color: Colors.white70, fontSize: 16.0),
           ),
         ),
         Padding(

@@ -26,7 +26,7 @@ dependencies:
   get_it: ^8.0.0
   injectable: ^2.5.0
   curved_navigation_bar: ^1.0.6
-
+  mailer: ^6.2.0
 
 dev_dependencies:
   flutter_test:
@@ -51,5 +51,7 @@ flutter:
     - assets/Logo.png
     - assets/dogopng.png
     - assets/images/pantalla_splash.jpeg
+    - assets/images/home_screen.png
+    - assets/images/logo_nuevo.jpeg
 
 
