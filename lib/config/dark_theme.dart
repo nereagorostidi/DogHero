@@ -7,7 +7,7 @@ class DarkThemeColors {
   static const Color accentColor =
       Color(0xFF795548); // Marrón para acento y elementos destacados
   static const Color primaryTextColor =
-      Color(0xFFFFFFFF); // Blanco para el texto principal
+      Color.fromARGB(255, 211, 210, 210); // Blanco para el texto principal
   static const Color secondaryTextColor =
       Color.fromARGB(255, 139, 139, 139); // Gris claro para el texto secundario
   static const Color dividerColor =
@@ -18,6 +18,8 @@ class DarkThemeColors {
       Color.fromARGB(255, 92, 61, 54); // Marrón oscuro para el fondo general
   static const Color surfaceColor = Color.fromARGB(
       255, 135, 95, 81); // Marrón medio para superficies elevadas como tarjetas
+  static const Color inputBackgroundColor =
+      Color.fromARGB(255, 50, 50, 50); // Fondo oscuro para cuadros de texto
 }
 
 final ThemeData darkTheme = ThemeData(
@@ -27,7 +29,8 @@ final ThemeData darkTheme = ThemeData(
       .scaffoldBackgroundColor, // Fondo general para el modo oscuro
   textTheme: const TextTheme(
     bodyLarge: TextStyle(color: DarkThemeColors.primaryTextColor),
-    bodyMedium: TextStyle(color: Color.fromARGB(255, 162, 161, 161)),
+    bodyMedium:
+        TextStyle(color: Color.fromARGB(255, 162, 161, 161), fontSize: 20.0),
   ),
   colorScheme: const ColorScheme.dark(
     primary: DarkThemeColors.primaryColor,
@@ -35,8 +38,10 @@ final ThemeData darkTheme = ThemeData(
     surface: DarkThemeColors
         .surfaceColor, // Color para superficies elevadas como tarjetas
     error: DarkThemeColors.dividerColor,
-    onPrimary: Colors.white, // Texto sobre el color primario
-    onSecondary: Colors.white, // Texto sobre el color secundario
+    onPrimary:
+        Color.fromARGB(255, 255, 255, 255), // Texto sobre el color primario
+    onSecondary:
+        Color.fromARGB(255, 255, 255, 255), // Texto sobre el color secundario
     onSurface:
         DarkThemeColors.primaryTextColor, // Texto sobre superficies elevadas
   ),
@@ -71,6 +76,22 @@ final ThemeData darkTheme = ThemeData(
       foregroundColor: DarkThemeColors.primaryColor,
       side: const BorderSide(
           color: DarkThemeColors.primaryColor), // Borde del botón
+    ),
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    filled: true,
+    fillColor:
+        const Color.fromARGB(255, 196, 143, 124), // Fondo del cuadro de texto
+    hintStyle: const TextStyle(
+      color: DarkThemeColors.secondaryTextColor, // Placeholder gris claro
+    ),
+
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(11.0),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(
+          11.0), // Bordes redondeados al no estar enfocado
     ),
   ),
 );

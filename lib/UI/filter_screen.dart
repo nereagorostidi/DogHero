@@ -57,10 +57,22 @@ class _FilterScreenState extends State<FilterScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildFilterRow("Sex", ['Male', 'Female'], _selectedSex),
-            _buildFilterRow("Size", ['Small', 'Medium', 'Large'], _selectedSize),
-            _buildFilterRow("Age", ['Puppy', 'Adult', 'Senior'], _selectedAge),
-            _buildFilterRow("Energy Level", ['Low', 'Medium', 'High'], _selectedEnergyLevel),
+            _buildFilterRow("Sexo", ['Macho', 'Hembra'], _selectedSex),
+            const SizedBox(
+              height: 13.0,
+            ),
+            _buildFilterRow(
+                "Tamaño", ['Pequeño', 'Mediano', 'Grande'], _selectedSize),
+            const SizedBox(
+              height: 13.0,
+            ),
+            _buildFilterRow(
+                "Edad", ['Cachorro', 'Adulto', 'Senior'], _selectedAge),
+            const SizedBox(
+              height: 13.0,
+            ),
+            _buildFilterRow("Nivel energía", ['Baja', 'Media', 'Alta'],
+                _selectedEnergyLevel),
             const Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,7 +84,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     color: Theme.of(context).colorScheme.secondary,
                     textColor: Colors.white,
                     onPressed: _applyFilters, // Clear Filters action
-                    child: const Text('Apply Filters'),
+                    child: const Text('Aplicar Filtros'),
                   ),
                 ),
                 ClipRRect(
@@ -80,10 +92,10 @@ class _FilterScreenState extends State<FilterScreen> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: Colors.lightGreen,
+                      //backgroundColor: Colors.lightGreen,
                     ),
                     onPressed: _clearFilters, // Clear Filters action
-                    child: const Text('Clear Filters'),
+                    child: const Text('Borrar Filtros'),
                   ),
                 ),
               ],
@@ -95,17 +107,18 @@ class _FilterScreenState extends State<FilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.orange,
-        appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 87, 88, 88),
-          elevation: 0.0,
-          title: const Text('Filter'),
-        ),
-        body: _buildBody(),
+      //backgroundColor: Colors.orange,
+      appBar: AppBar(
+        //backgroundColor: const Color.fromARGB(255, 87, 88, 88),
+        elevation: 0.0,
+        title: const Text('Filtros'),
+      ),
+      body: _buildBody(),
     );
   }
 
-  Widget _buildFilterRow(String title, List<String> values, Set<String> selectedValues) {
+  Widget _buildFilterRow(
+      String title, List<String> values, Set<String> selectedValues) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -136,5 +149,4 @@ class _FilterScreenState extends State<FilterScreen> {
       ],
     );
   }
-
 }

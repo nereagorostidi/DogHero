@@ -20,7 +20,6 @@ class DogDetailHeader extends StatefulWidget {
 }
 
 class DogDetailHeaderState extends State<DogDetailHeader> {
-
   void sendEmail() async {
     // SMTP server configuration
     String senderEmail = 'europesip@gmail.com';
@@ -46,10 +45,11 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
     final smtpServer = gmail(senderEmail, password);
 
     final message = Message()
-      ..from = Address(senderEmail, 'europesip')
+      ..from = Address(senderEmail, 'DogHero')
       ..recipients.add(widget.dog.donationContactEmail)
-      ..subject = 'Addopt Dogs'
-      ..text = 'Email : ${widget.dog.donationContactEmail}\nDOCUID: ${widget.dog.id}\nName: $username\nLastname: $userSurName\nUserEmail: $userEmail';
+      ..subject = 'Solicitud de Adopcion de Perros'
+      ..text =
+          'Email Donante: ${widget.dog.donationContactEmail}\nDOCUID del Perro a Adoptar: ${widget.dog.id}\n\n\DATOS DEL QUE QUIERE ADOPTAR\nNombre: $username\nApellido: $userSurName\nEmail de Contactos: $userEmail';
 
     try {
       final sendReport = await send(message, smtpServer);
@@ -62,8 +62,10 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
 
   Future<void> updateDogStatusToReserved() async {
     try {
-      DatabaseService dbService = DatabaseService(uid: FirebaseAuth.instance.currentUser?.uid ?? "");
-      bool success = await dbService.updateDogStatus(widget.dog.id, "reservated");
+      DatabaseService dbService =
+          DatabaseService(uid: FirebaseAuth.instance.currentUser?.uid ?? "");
+      bool success =
+          await dbService.updateDogStatus(widget.dog.id, "reservated");
       if (success) {
         print('Dog status updated to reserved');
         setState(() {
@@ -76,7 +78,6 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
       print('Error while updating dog status: $e');
     }
     print('showButton $showButton');
-
   }
 
   bool showButton = true;
@@ -134,19 +135,21 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          widget.dog.status == "ready-to-adopt" && showButton == true ? ClipRRect(
-            borderRadius: BorderRadius.circular(30.0),
-            child: MaterialButton(
-              minWidth: 140.0,
-              color: Theme.of(context).colorScheme.secondary,
-              //textColor: Colors.white,
-              onPressed: () async {
-                //TODO Handle Adopt
-                sendEmail();
-              },
-              child: const Text('ADOPTAME'),
-            ),
-          ) : Container(),
+          widget.dog.status == "ready-to-adopt" && showButton == true
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(30.0),
+                  child: MaterialButton(
+                    minWidth: 140.0,
+                    color: Theme.of(context).colorScheme.secondary,
+                    //textColor: Colors.white,
+                    onPressed: () async {
+                      //TODO Handle Adopt
+                      sendEmail();
+                    },
+                    child: const Text('ADOPTAME'),
+                  ),
+                )
+              : Container(),
           ClipRRect(
             borderRadius: BorderRadius.circular(30.0),
             child: ElevatedButton(
