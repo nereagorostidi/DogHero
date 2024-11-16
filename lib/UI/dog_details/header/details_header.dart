@@ -22,8 +22,8 @@ class DogDetailHeader extends StatefulWidget {
 class DogDetailHeaderState extends State<DogDetailHeader> {
   void sendEmail() async {
     // SMTP server configuration
-    String senderEmail = 'europesip@gmail.com';
-    String password = 'ogckfkcpohdbpdke';
+    String senderEmail = 'dog.heroadoption@gmail.com';
+    String password = 'oqibxkdpleiqnjmk';
     String username = "";
     String userPhone = "";
     String userSurName = "";
@@ -47,7 +47,7 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
     final message = Message()
       ..from = Address(senderEmail, 'DogHero')
       ..recipients.add(widget.dog.donationContactEmail)
-      ..subject = 'Solicitud de Adopcion de Perros'
+      ..subject = 'Solicitud de $username para adoptar a ${widget.dog.name} '
       ..text =
           'Email Donante: ${widget.dog.donationContactEmail}\nDOCUID del Perro a Adoptar: ${widget.dog.id}\n\n\DATOS DEL QUE QUIERE ADOPTAR\nNombre: $username\nApellido: $userSurName\nEmail de Contactos: $userEmail';
 

@@ -208,7 +208,7 @@ class _TestState extends State<Test> {
         style: Theme.of(context)
             .textTheme
             .bodyLarge!
-            .copyWith(fontSize: 18.0) // Usa bodyLarge para el texto principal
+            .copyWith(fontSize: 23.0) // Usa bodyLarge para el texto principal
         /*style: TextStyle(
           color: Colors.white, fontWeight: FontWeight.bold, fontSize: 32.0),*/
         );

@@ -40,7 +40,7 @@ class _LoginState extends State<Login> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Dog Hero",
+                          "DogHero",
                           style:
                               Theme.of(context).textTheme.bodyLarge!.copyWith(
                                     fontSize: 50.0,
@@ -48,7 +48,7 @@ class _LoginState extends State<Login> {
                         ),
                         const SizedBox(height: 10),
                         const Image(
-                          image: AssetImage('assets/Logo.png'),
+                          image: AssetImage('assets/images/logo_nuevo.png'),
                           height: 150,
                           width: 150,
                         ),
