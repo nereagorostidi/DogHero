@@ -1,0 +1,108 @@
+import 'package:doghero_app/config/dark_theme.dart';
+import 'package:doghero_app/config/ligth_theme.dart';
+import 'package:doghero_app/models/user.dart';
+import 'package:doghero_app/services/auth.dart';
+import 'package:doghero_app/utils/splash_screen.dart';
+
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart'; // Firebase Messaging
+import 'package:provider/provider.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler); // Configura mensajes en segundo plano
+  runApp(const DogHero());
+}
+
+/// Maneja los mensajes en segundo plano
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("Mensaje recibido en segundo plano: ${message.notification?.title}");
+}
+
+class DogHero extends StatelessWidget {
+  const DogHero({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamProvider<User?>.value(
+      value: AuthService().user,
+      initialData: null,
+      child: MaterialApp(
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        themeMode: ThemeMode.system,
+        debugShowCheckedModeBanner: false,
+        home: const SplashScreen(),
+      ),
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    // Solicita permisos para notificaciones en iOS
+    _requestNotificationPermission();
+
+    // Configura los listeners para notificaciones en primer plano
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("Mensaje recibido en primer plano: ${message.notification?.title}");
+      _showNotificationDialog(message);
+    });
+
+    // Configura los listeners para notificaciones cuando la app se abre desde una notificación
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print("Notificación tocada: ${message.notification?.title}");
+      _showNotificationDialog(message);
+    });
+  }
+
+  /// Solicita permisos para notificaciones (necesario en iOS)
+  void _requestNotificationPermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    NotificationSettings settings = await messaging.requestPermission();
+    print("Permisos de notificaciones: ${settings.authorizationStatus}");
+  }
+
+  /// Muestra un dialog-box con la información de la notificación
+  void _showNotificationDialog(RemoteMessage message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(message.notification?.title ?? "Notificación"),
+          content: Text(message.notification?.body ?? "Sin contenido"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cierra el dialog-box
+              },
+              child: const Text("Cerrar"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(), // Simula una pantalla de carga
+      ),
+    );
+  }
+}
