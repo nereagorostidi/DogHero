@@ -64,20 +64,21 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
       ..recipients.add(widget.dog.donationContactEmail) // Correo del donante
       ..subject = 'Solicitud de $username para adoptar a ${widget.dog.name}'
       ..html = '''
-       <h3>IDENTIFICACION DEL PERRO A ADOPTAR Y DONANTE ASOCIADO</h3>
-      <p><strong>Email Donante:</strong> ${widget.dog.donationContactEmail}</p>
-      <p><strong>Nombre del Perro a adoptar:</strong> ${widget.dog.name}</p>
-      <p><strong>DocID (Identificador):</strong> ${widget.dog.id}</p>
+      
+      <h3>IDENTIFICACION DEL PERRO A ADOPTAR Y DONANTE ASOCIADO</h3>
+      <p>Email Donante: ${widget.dog.donationContactEmail}</p>
+      <p>Nombre del Perro a adoptar:<strong> ${widget.dog.name} </strong></p>
+      <p>DocID (Identificador): ${widget.dog.id}</p>
 
       <h3>DATOS DEL ADOPTANTE</h3>
-      <p><strong>Nombre:</strong> $username</p>
-      <p><strong>Apellido:</strong> $userSurName</p>
+      <p>Nombre: <strong>$username</strong></p>
+      <p>Apellido:<strong>$userSurName</strong></p>
       <p><strong>Teléfono:</strong> $userPhone</p>
       <p><strong>Email de Contacto:</strong> $userEmail</p>
 
-      <h3>MOTIVOS PARA ADOPTAR</h3>
+      <h3>MOTIVOS DEL DONANTE PARA ADOPTAR</h3>
       <p><strong>Razón para adoptar:</strong> $whyAdopt</p>
-      <p><strong>Cómo hará feliz al perro:</strong> $makeHappy</p>
+      <p><strong>Cómo intentará dar un hogar feliz y cuidados al perro:</strong> $makeHappy</p>
       ''';
 
 

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:doghero_app/UI/dog_list.dart';
+import 'package:doghero_app/UI/test.dart';
 import 'package:doghero_app/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:doghero_app/services/db.dart';
@@ -21,26 +23,17 @@ class _PreferenciasState extends State<Preferencias> {
 
   // Variables para almacenar los datos del formulario
   String _name = '';
-  String _surname = '';
+  String _surname = ''; // Nuevo: Apellido
   String _location = '';
   int _number = 0;
-  String _whyAdopt = '';
-  String _makeHappy = '';
-  String? _fcmToken;
-
-  // Controladores de texto para los campos
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _surnameController = TextEditingController();
-  final TextEditingController _locationController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _whyAdoptController = TextEditingController();
-  final TextEditingController _makeHappyController = TextEditingController();
+  String _whyAdopt = ''; // Nuevo: ¿Por qué quieres adoptar?
+  String _makeHappy = ''; // Nuevo: ¿Cómo harás feliz al perro?
+  String? _fcmToken; // Token FCM del dispositivo
 
   @override
   void initState() {
     super.initState();
-    _getFcmToken();
-    _loadUserData(); // Cargar los datos existentes
+    _getFcmToken(); // Obtiene el FCM token al cargar la pantalla
   }
 
   // Método para obtener el FCM token
@@ -53,41 +46,10 @@ class _PreferenciasState extends State<Preferencias> {
     print("FCM Token: $_fcmToken");
   }
 
-  // Método para cargar los datos del usuario desde Firestore
-  Future<void> _loadUserData() async {
-    String? uid = Provider.of<User?>(context, listen: false)?.uid;
-    if (uid != null) {
-      DatabaseService dbService = DatabaseService(uid: uid);
-      String? name = await dbService.getUserName();
-      String? surname = await dbService.getUserSurname();
-      String? location = await dbService.getUserLocation();
-      int? phone = await dbService.getUserPhone();
-      String? whyAdopt = await dbService.getWhyAdopt();
-      String? makeHappy = await dbService.getMakeHappy();
-
-      setState(() {
-        _name = name ?? '';
-        _surname = surname ?? '';
-        _location = location ?? '';
-        _number = phone ?? 0;
-        _whyAdopt = whyAdopt ?? '';
-        _makeHappy = makeHappy ?? '';
-
-        // Actualiza los controladores de texto con los datos cargados
-        _nameController.text = _name;
-        _surnameController.text = _surname;
-        _locationController.text = _location;
-        _phoneController.text = _number > 0 ? _number.toString() : '';
-        _whyAdoptController.text = _whyAdopt;
-        _makeHappyController.text = _makeHappy;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return StreamProvider<User?>.value(
-      value: _auth.user,
+      value: _auth.user, // Proporciona el usuario autenticado
       initialData: null,
       child: Consumer<User?>(
         builder: (context, user, _) {
@@ -120,7 +82,6 @@ class _PreferenciasState extends State<Preferencias> {
                           children: <Widget>[
                             // Campo: Nombre
                             TextFormField(
-                              controller: _nameController,
                               decoration: textFieldDecoration.copyWith(
                                 hintText: 'Nombre',
                                 suffixIcon: const Icon(Icons.person),
@@ -134,7 +95,6 @@ class _PreferenciasState extends State<Preferencias> {
                             const SizedBox(height: 20.0),
                             // Campo: Apellido
                             TextFormField(
-                              controller: _surnameController,
                               decoration: textFieldDecoration.copyWith(
                                 hintText: 'Apellido',
                                 suffixIcon: const Icon(Icons.person_outline),
@@ -148,7 +108,6 @@ class _PreferenciasState extends State<Preferencias> {
                             const SizedBox(height: 20.0),
                             // Campo: Ubicación
                             TextFormField(
-                              controller: _locationController,
                               decoration: textFieldDecoration.copyWith(
                                 hintText: 'Ubicación',
                                 suffixIcon: const Icon(Icons.location_on),
@@ -163,7 +122,6 @@ class _PreferenciasState extends State<Preferencias> {
                             const SizedBox(height: 20.0),
                             // Campo: Teléfono
                             TextFormField(
-                              controller: _phoneController,
                               decoration: textFieldDecoration.copyWith(
                                 hintText: 'Número de Teléfono',
                                 suffixIcon: const Icon(Icons.phone),
@@ -179,7 +137,6 @@ class _PreferenciasState extends State<Preferencias> {
                             const SizedBox(height: 20.0),
                             // Campo: ¿Por qué quieres adoptar?
                             TextFormField(
-                              controller: _whyAdoptController,
                               decoration: textFieldDecoration.copyWith(
                                 hintText: '¿Por qué quieres adoptar un perro?',
                                 suffixIcon: const Icon(Icons.question_answer),
@@ -195,9 +152,9 @@ class _PreferenciasState extends State<Preferencias> {
                             const SizedBox(height: 20.0),
                             // Campo: ¿Cómo harás feliz al perro?
                             TextFormField(
-                              controller: _makeHappyController,
                               decoration: textFieldDecoration.copyWith(
-                                hintText: 'Explica cómo harás feliz al perro',
+                                hintText:
+                                    'Explica cómo harás feliz al perro',
                                 suffixIcon: const Icon(Icons.sentiment_satisfied),
                               ),
                               maxLines: 3,
@@ -227,9 +184,8 @@ class _PreferenciasState extends State<Preferencias> {
                                   );
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                      content: Text(
-                                          'Datos guardados correctamente'),
-                                    ),
+                                        content:
+                                            Text('Datos guardados correctamente')),
                                   );
                                 }
                               },
