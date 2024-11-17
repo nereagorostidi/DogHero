@@ -143,6 +143,7 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
   }
 
   bool showButton = true;
+  bool _isButtonEnabled = true;
 
   @override
   Widget build(BuildContext context) {
