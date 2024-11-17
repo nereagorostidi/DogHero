@@ -24,30 +24,28 @@ class _Register extends State<Register> {
     return Scaffold(
       body: Column(
         children: [
-          Expanded(
-            child: ClipPath(
-              clipper: OvalBottomBorderClipper(),
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.33,
-                //color: Colors.orange,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "DogHero",
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize: 50.0,
-                            ),
-                      ),
-                      const SizedBox(height: 10),
-                      const Image(
-                        image: AssetImage('assets/images/logo_nuevo.png'),
-                        height: 150,
-                        width: 150,
-                      ),
-                    ],
-                  ),
+          ClipPath(
+            clipper: OvalBottomBorderClipper(),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.35,
+              //color: Colors.orange,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "DogHero",
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: 50.0,
+                          ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Image(
+                      image: AssetImage('assets/images/logo_nuevo.png'),
+                      height: 150,
+                      width: 150,
+                    ),
+                  ],
                 ),
               ),
             ),
