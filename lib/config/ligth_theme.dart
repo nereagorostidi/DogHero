@@ -82,4 +82,24 @@ final ThemeData lightTheme = ThemeData(
           color: LightThemeColors.primaryColor), // Borde del botón
     ),
   ),
+  inputDecorationTheme: InputDecorationTheme(
+    filled: true,
+    fillColor: LightThemeColors.surfaceColor, // Fondo del cuadro de texto
+    hintStyle: const TextStyle(
+      color: LightThemeColors.secondaryTextColor, // Placeholder gris claro
+    ),
+
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(11.0),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(
+          11.0), // Bordes redondeados al no estar enfocado
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius:
+          BorderRadius.circular(11.0), // Bordes redondeados al enfocarse
+      borderSide: BorderSide.none, // Sin borde también al enfocarse
+    ),
+  ),
 );

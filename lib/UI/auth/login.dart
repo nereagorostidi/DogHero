@@ -33,7 +33,7 @@ class _LoginState extends State<Login> {
               ClipPath(
                 clipper: OvalBottomBorderClipper(),
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.33,
+                  height: MediaQuery.of(context).size.height * 0.35,
                   //color: Colors.orange,
                   child: Center(
                     child: Column(
