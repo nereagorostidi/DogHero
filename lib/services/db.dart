@@ -1,101 +1,198 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class DatabaseService{
+class DatabaseService {
+  final String uid; // UID único del usuario autenticado
 
-  final String uid;
+  // Constructor que recibe el UID
   DatabaseService({required this.uid});
 
-  final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
-  final CollectionReference dogsCollection = FirebaseFirestore.instance.collection('dogs');
+  // Referencias a las colecciones en Firestore
+  final CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
+  final CollectionReference dogsCollection =
+      FirebaseFirestore.instance.collection('dogs');
 
-  Future updateUserData(String name, int number, String location) async{ //check for first time missing
-    return await userCollection.doc(uid).set({
+  // ======================
+  // Métodos para actualizar datos
+  // ======================
+
+  /// Actualiza los datos del usuario en Firestore
+  Future<void> updateUserData({
+    required String name,
+    required String surname,
+    required String location,
+    required int phone,
+    required String whyAdopt,
+    required String makeHappy,
+    String? fcmToken, // FCM token opcional
+  }) async {
+    Map<String, dynamic> userData = {
       'name': name,
+      'surname': surname,
       'location': location,
-      'phone': number,
-    });
+      'phone': phone,
+      'whyAdopt': whyAdopt,
+      'makeHappy': makeHappy,
+    };
+
+    // Agrega el FCM token si está disponible
+    if (fcmToken != null) {
+      userData['fcmToken'] = fcmToken;
+    }
+
+    // Guarda o actualiza el documento del usuario
+    await userCollection.doc(uid).set(userData, SetOptions(merge: true));
   }
 
+  // ======================
+  // Getters para obtener datos
+  // ======================
+
+  /// Obtiene el nombre del usuario
   Future<String?> getUserName() async {
     try {
       DocumentSnapshot doc = await userCollection.doc(uid).get();
-      // Check if the document exists and the 'surname' field is present
-      if (doc.exists && doc.data() != null) {
+      if (doc.exists) {
         final data = doc.data() as Map<String, dynamic>;
-        return data['name'] ?? ""; // Return empty string if 'surname' is null or absent
+        return data['name'] as String?;
       }
-      return ""; // Return empty string if the document doesn't exist or has no data
+      return null;
     } catch (e) {
-      // Handle any potential errors (e.g., network issues)
-      print("Error fetching user surname: $e");
-      return "";
+      print("Error obteniendo el nombre del usuario: $e");
+      return null;
     }
   }
 
-  Future<int?> getUserPhone() async {
-    try {
-      DocumentSnapshot doc = await userCollection.doc(uid).get();
-      // Check if the document exists and the 'surname' field is present
-      if (doc.exists && doc.data() != null) {
-        final data = doc.data() as Map<String, dynamic>;
-        return data['phone'] ?? ""; // Return empty string if 'surname' is null or absent
-      }
-      return 0; // Return empty string if the document doesn't exist or has no data
-    } catch (e) {
-      // Handle any potential errors (e.g., network issues)
-      print("Error fetching user surname: $e");
-      return 0;
-    }
-  }
-
-  Future<String?> getUserEmail() async {
-    try {
-      DocumentSnapshot doc = await userCollection.doc(uid).get();
-      // Check if the document exists and the 'surname' field is present
-      if (doc.exists && doc.data() != null) {
-        final data = doc.data() as Map<String, dynamic>;
-        return data['email'] ?? ""; // Return empty string if 'surname' is null or absent
-      }
-      return ""; // Return empty string if the document doesn't exist or has no data
-    } catch (e) {
-      // Handle any potential errors (e.g., network issues)
-      print("Error fetching user surname: $e");
-      return "";
-    }
-  }
-
+  /// Obtiene el apellido del usuario
   Future<String?> getUserSurname() async {
     try {
       DocumentSnapshot doc = await userCollection.doc(uid).get();
-      // Check if the document exists and the 'surname' field is present
-      if (doc.exists && doc.data() != null) {
+      if (doc.exists) {
         final data = doc.data() as Map<String, dynamic>;
-        return data['DSASDSAD'] ?? ""; // Return empty string if 'surname' is null or absent
+        return data['surname'] as String?;
       }
-      return ""; // Return empty string if the document doesn't exist or has no data
+      return null;
     } catch (e) {
-      // Handle any potential errors (e.g., network issues)
-      print("Error fetching user surname: $e");
-      return "";
+      print("Error obteniendo el apellido del usuario: $e");
+      return null;
     }
   }
 
-  //stream to get user data and change it later
-  Stream<QuerySnapshot> get users{
-    return userCollection.snapshots();
+  /// Obtiene la ubicación del usuario
+  Future<String?> getUserLocation() async {
+    try {
+      DocumentSnapshot doc = await userCollection.doc(uid).get();
+      if (doc.exists) {
+        final data = doc.data() as Map<String, dynamic>;
+        return data['location'] as String?;
+      }
+      return null;
+    } catch (e) {
+      print("Error obteniendo la ubicación del usuario: $e");
+      return null;
+    }
   }
 
+  /// Obtiene el número de teléfono del usuario
+  Future<int?> getUserPhone() async {
+    try {
+      DocumentSnapshot doc = await userCollection.doc(uid).get();
+      if (doc.exists) {
+        final data = doc.data() as Map<String, dynamic>;
+        return data['phone'] as int?;
+      }
+      return null;
+    } catch (e) {
+      print("Error obteniendo el teléfono del usuario: $e");
+      return null;
+    }
+  }
+
+  /// Obtiene el correo electrónico del usuario
+  Future<String?> getUserEmail() async {
+    try {
+      DocumentSnapshot doc = await userCollection.doc(uid).get();
+      if (doc.exists) {
+        final data = doc.data() as Map<String, dynamic>;
+        return data['email'] as String?;
+      }
+      return null;
+    } catch (e) {
+      print("Error obteniendo el correo electrónico: $e");
+      return null;
+    }
+  }
+
+  /// Obtiene la razón para adoptar
+  Future<String?> getWhyAdopt() async {
+    try {
+      DocumentSnapshot doc = await userCollection.doc(uid).get();
+      if (doc.exists) {
+        final data = doc.data() as Map<String, dynamic>;
+        return data['whyAdopt'] as String?;
+      }
+      return null;
+    } catch (e) {
+      print("Error obteniendo la razón para adoptar: $e");
+      return null;
+    }
+  }
+
+  /// Obtiene la explicación de cómo hará feliz al perro
+  Future<String?> getMakeHappy() async {
+    try {
+      DocumentSnapshot doc = await userCollection.doc(uid).get();
+      if (doc.exists) {
+        final data = doc.data() as Map<String, dynamic>;
+        return data['makeHappy'] as String?;
+      }
+      return null;
+    } catch (e) {
+      print("Error obteniendo la explicación de felicidad: $e");
+      return null;
+    }
+  }
+
+  /// Obtiene el token FCM del usuario
+  /// EL token FCM se utiliza para enviar notificaciones push
+  Future<String?> getFcmToken() async {
+    try {
+      DocumentSnapshot doc = await userCollection.doc(uid).get();
+      if (doc.exists) {
+        final data = doc.data() as Map<String, dynamic>;
+        return data['fcmToken'] as String?;
+      }
+      return null;
+    } catch (e) {
+      print("Error obteniendo el token FCM: $e");
+      return null;
+    }
+  }
+
+  // ======================
+  // Métodos relacionados con perros
+  // ======================
+
+  /// Actualiza el estado de un perro (adoptado, disponible, etc.)
   Future<bool> updateDogStatus(String dogId, String status) async {
     try {
-      DocumentReference dogRef = FirebaseFirestore.instance.collection('dogs').doc(dogId.toString());
+      DocumentReference dogRef = dogsCollection.doc(dogId);
       await dogRef.update({
         'status': status,
       });
-      return true;
+      return true; // Éxito al actualizar
     } catch (e) {
-      print('Error updating dog status: $e');
-      return false;
+      print('Error actualizando el estado del perro: $e');
+      return false; // Error al actualizar
     }
   }
 
+  // ======================
+  // Stream para observar cambios en los datos de usuarios
+  // ======================
+
+  /// Obtiene un stream de la colección de usuarios
+  Stream<QuerySnapshot> get users {
+    return userCollection.snapshots();
+  }
 }
