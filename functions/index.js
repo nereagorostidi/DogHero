@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 
 // Parámetros globales para controlar el envío de notificaciones y correos
 const FCMSend = false; // Cambiar a `false` si no quieres enviar notificaciones push
-const MailSend = true; // Cambiar a `false` si no quieres enviar correos
+const MailSend = false; // Cambiar a `false` si no quieres enviar correos
 
 exports.markAsAdoptedOrRejected = functions.https.onRequest(async (req, res) => {
   try {
