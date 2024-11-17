@@ -26,25 +26,22 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
   String userEmail = "";
   String whyAdopt = ""; // Nueva variable para la razón de adopción
   String makeHappy = ""; // Nueva variable para cómo hará feliz al perro
+  String fcmToken = ""; // Token FCM del usuario
 
-  /// Envía un correo electrónico con los datos del adoptante
-  void sendEmail() async {
-    // Configuración del servidor SMTP
-    String senderEmail = 'dog.heroadoption@gmail.com';
-    String password = 'oqibxkdpleiqnjmk';
-
+  /// Obtiene los datos del usuario desde Firestore
+  Future<void> _fetchUserData() async {
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid != null) {
-      // Obtiene los datos del usuario desde Firestore
       DatabaseService dbService = DatabaseService(uid: uid);
       String? name = await dbService.getUserName();
       int? phone = await dbService.getUserPhone();
       String? surName = await dbService.getUserSurname();
       String? email = await dbService.getUserEmail();
-      String? reason = await dbService.getWhyAdopt(); // Obtiene la razón para adoptar
-      String? happiness = await dbService.getMakeHappy(); // Obtiene cómo hará feliz al perro
+      String? reason = await dbService.getWhyAdopt(); // Razón para adoptar
+      String? happiness = await dbService.getMakeHappy(); // Cómo hará feliz al perro
+      String? token = await dbService.getFcmToken(); // Token FCM
 
-      // Asigna los valores obtenidos a las variables
+      // Actualiza las variables locales con los datos obtenidos
       setState(() {
         username = name ?? '';
         userPhone = phone != null ? phone.toString() : 'No proporcionado';
@@ -52,8 +49,22 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
         userEmail = email ?? 'No proporcionado';
         whyAdopt = reason ?? 'No especificado';
         makeHappy = happiness ?? 'No especificado';
+        fcmToken = token ?? 'No disponible';
       });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData(); // Carga los datos del usuario al iniciar
+  }
+
+  /// Envía un correo electrónico con los datos del adoptante
+  void sendEmail() async {
+    // Configuración del servidor SMTP
+    String senderEmail = 'dog.heroadoption@gmail.com';
+    String password = 'oqibxkdpleiqnjmk';
 
     // Configura el servidor SMTP
     final smtpServer = gmail(senderEmail, password);
@@ -64,23 +75,39 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
       ..recipients.add(widget.dog.donationContactEmail) // Correo del donante
       ..subject = 'Solicitud de $username para adoptar a ${widget.dog.name}'
       ..html = '''
-      
       <h3>IDENTIFICACION DEL PERRO A ADOPTAR Y DONANTE ASOCIADO</h3>
       <p>Email Donante: ${widget.dog.donationContactEmail}</p>
-      <p>Nombre del Perro a adoptar:<strong> ${widget.dog.name} </strong></p>
+      <p>Nombre del Perro a adoptar: <strong>${widget.dog.name}</strong></p>
       <p>DocID (Identificador): ${widget.dog.id}</p>
 
       <h3>DATOS DEL ADOPTANTE</h3>
       <p>Nombre: <strong>$username</strong></p>
-      <p>Apellido:<strong>$userSurName</strong></p>
+      <p>Apellido: <strong>$userSurName</strong></p>
       <p><strong>Teléfono:</strong> $userPhone</p>
       <p><strong>Email de Contacto:</strong> $userEmail</p>
+      <p><strong>FCM Token:</strong> $fcmToken</p>
 
       <h3>MOTIVOS DEL DONANTE PARA ADOPTAR</h3>
       <p><strong>Razón para adoptar:</strong> $whyAdopt</p>
       <p><strong>Cómo intentará dar un hogar feliz y cuidados al perro:</strong> $makeHappy</p>
-      ''';
 
+      <h3>ACCIONES</h3>
+      <p>
+        Puede autorizar o rechazar la adopción usando los siguientes enlaces:
+      </p>
+      <ul>
+        <li>
+          <a href="https://markasadoptedorrejected-mau7e5gw2a-uc.a.run.app?dogId=${widget.dog.id}&fcmToken=$fcmToken&email=$userEmail">
+            Autorizar Adopción
+          </a>
+        </li>
+        <li>
+          <a href="https://markasadoptedorrejected-mau7e5gw2a-uc.a.run.app?dogId=${widget.dog.id}&fcmToken=$fcmToken&email=$userEmail&rejectAdoption=true">
+            Rechazar Adopción
+          </a>
+        </li>
+      </ul>
+      ''';
 
     try {
       // Intenta enviar el correo
@@ -115,13 +142,6 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
   }
 
   bool showButton = true;
-
-  @override
-  void initState() {
-    // Define si se muestra el botón de adopción según el estado del perro
-    showButton = widget.dog.status == "ready-to-adopt" ? true : false;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
