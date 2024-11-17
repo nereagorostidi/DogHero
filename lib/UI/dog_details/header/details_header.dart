@@ -41,8 +41,10 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
       int? phone = await dbService.getUserPhone();
       String? surName = await dbService.getUserSurname();
       String? email = await dbService.getUserEmail();
-      String? reason = await dbService.getWhyAdopt(); // Obtiene la razón para adoptar
-      String? happiness = await dbService.getMakeHappy(); // Obtiene cómo hará feliz al perro
+      String? reason =
+          await dbService.getWhyAdopt(); // Obtiene la razón para adoptar
+      String? happiness =
+          await dbService.getMakeHappy(); // Obtiene cómo hará feliz al perro
 
       // Asigna los valores obtenidos a las variables
       setState(() {
@@ -81,7 +83,6 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
       <p><strong>Cómo intentará dar un hogar feliz y cuidados al perro:</strong> $makeHappy</p>
       ''';
 
-
     try {
       // Intenta enviar el correo
       final sendReport = await send(message, smtpServer);
@@ -101,10 +102,10 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
       bool success =
           await dbService.updateDogStatus(widget.dog.id, "reservated");
       if (success) {
-        print('Dog status updated to reserved');
+        /*print('Dog status updated to reserved');
         setState(() {
           showButton = false; // Desactiva el botón de adopción
-        });
+        });*/
       } else {
         print('Failed to update dog status');
       }
@@ -115,6 +116,7 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
   }
 
   bool showButton = true;
+  bool _isButtonEnabled = true;
 
   @override
   void initState() {
@@ -167,7 +169,57 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
                   child: MaterialButton(
                     minWidth: 140.0,
                     color: Theme.of(context).colorScheme.secondary,
-                    onPressed: sendEmail, // Llama a `sendEmail`
+                    disabledColor: Theme.of(context)
+                        .colorScheme
+                        .secondary
+                        .withOpacity(0.5), // Color para botón deshabilitado
+                    onPressed: _isButtonEnabled
+                        ? () {
+                            // Mostrar el AlertDialog
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Confirmación'),
+                                  content: Text(
+                                      '¿Estás seguro de que quieres enviar esta solicitud de adopción?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pop(); // Cierra el diálogo sin hacer nada
+                                      },
+                                      child: Text('Cancelar'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pop(); // Cierra el diálogo
+                                        setState(() {
+                                          _isButtonEnabled =
+                                              false; // Deshabilita el botón
+                                        });
+                                        sendEmail(); // Llama a la función para enviar el correo
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                                'Muchas gracias, hemos enviado su solicitud de adopción con sus datos personalizados. En breve, contactaran con usted'),
+                                            duration: Duration(
+                                                seconds:
+                                                    5), // Mensaje visible por 5 segundos
+                                          ),
+                                        );
+                                        // Mantener el botón deshabilitado tras enviar el formulario
+                                      },
+                                      child: Text('Aceptar'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        : null,
                     child: const Text('ADOPTAME'),
                   ),
                 )
