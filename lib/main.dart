@@ -36,7 +36,8 @@ class DogHero extends StatelessWidget {
         value: AuthService().user,
         initialData: null,
         child: MaterialApp(
-          navigatorKey: navigatorKey,  // se le pasa el navigator key a la app, para que pueda mostrar las alertas
+          navigatorKey:
+              navigatorKey, // se le pasa el navigator key a la app, para que pueda mostrar las alertas
           /*theme: ThemeData(
               primaryColor: Color(0xFFFF5722),
               primaryColorDark: Color(0xFFe64a19),
