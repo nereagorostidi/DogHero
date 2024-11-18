@@ -35,7 +35,7 @@ final ThemeData lightTheme = ThemeData(
     ),
     bodyMedium: TextStyle(
       color: LightThemeColors.secondaryTextColor,
-      fontSize: 17.0, // Texto secundario en gris claro
+      fontSize: 15.0, // Texto secundario en gris claro
     ),
   ),
   colorScheme: const ColorScheme.light(

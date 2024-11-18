@@ -297,6 +297,7 @@ class _TestState extends State<Test> {
           index: 1,
           backgroundColor: const Color.fromARGB(255, 87, 88,
               88), //placeholder this need to be changed to our color palette
+          height: 50.0,
           items: const <Widget>[
             Icon(
               Icons.home,

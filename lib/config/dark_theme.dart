@@ -30,7 +30,7 @@ final ThemeData darkTheme = ThemeData(
   textTheme: const TextTheme(
     bodyLarge: TextStyle(color: DarkThemeColors.primaryTextColor),
     bodyMedium:
-        TextStyle(color: Color.fromARGB(255, 162, 161, 161), fontSize: 20.0),
+        TextStyle(color: Color.fromARGB(255, 162, 161, 161), fontSize: 15.0),
   ),
   colorScheme: const ColorScheme.dark(
     primary: DarkThemeColors.primaryColor,
