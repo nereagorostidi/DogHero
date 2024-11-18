@@ -41,7 +41,9 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
 
       setState(() {
         // Actualiza el estado del botón y el estado del perro
-        _isButtonEnabled = dogData['buttonEnabled'] ?? true; // Estado del botón
+        _isButtonEnabled =
+            (dogData['status'] ?? 'ready-to-adopt') == "ready-to-adopt" &&
+                (dogData['buttonEnabled'] ?? true);
         widget.dog.status =
             dogData['status'] ?? 'ready-to-adopt'; // Estado del perro
         // Actualiza el título dinámico según el estado del perro
@@ -222,77 +224,78 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
+          /*widget.dog.status == "ready-to-adopt"
+              ?*/
+          ClipRRect(
+            borderRadius: BorderRadius.circular(30.0),
+            child: MaterialButton(
+              minWidth: 140.0,
+              color: Theme.of(context).colorScheme.secondary,
+              disabledColor: Theme.of(context)
+                  .colorScheme
+                  .secondary
+                  .withOpacity(0.5), // Color para botón deshabilitado
+              onPressed: (widget.dog.status == "ready-to-adopt" &&
+                      _isButtonEnabled)
+                  ? () {
+                      // Mostrar el AlertDialog
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Confirmación'),
+                            content: Text(
+                                '¿Estás seguro de que quieres enviar esta solicitud de adopción?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Cierra el diálogo sin hacer nada
+                                },
+                                child: Text('Cancelar'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Cierra el diálogo
+                                  setState(() {
+                                    _isButtonEnabled =
+                                        false; // Deshabilita el botón
+                                  });
+                                  sendEmail(); // Llama a la función para enviar el correo
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                          'Muchas gracias, hemos enviado su solicitud de adopción con sus datos personalizados. En breve, contactaran con usted'),
+                                      duration: Duration(
+                                          seconds:
+                                              3), // Mensaje visible por 5 segundos
+                                    ),
+                                  );
+                                  // Mantener el botón deshabilitado tras enviar el formulario
+                                },
+                                child: Text('Aceptar'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                  : null,
+              child: const Text('ADOPTAME'),
+            ),
+          ),
           widget.dog.status == "ready-to-adopt"
               ? ClipRRect(
                   borderRadius: BorderRadius.circular(30.0),
-                  child: MaterialButton(
-                    minWidth: 140.0,
-                    color: Theme.of(context).colorScheme.secondary,
-                    disabledColor: Theme.of(context)
-                        .colorScheme
-                        .secondary
-                        .withOpacity(0.5), // Color para botón deshabilitado
-                    onPressed: (widget.dog.status == "ready-to-adopt" &&
-                            _isButtonEnabled)
-                        ? () {
-                            // Mostrar el AlertDialog
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text('Confirmación'),
-                                  content: Text(
-                                      '¿Estás seguro de que quieres enviar esta solicitud de adopción?'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context)
-                                            .pop(); // Cierra el diálogo sin hacer nada
-                                      },
-                                      child: Text('Cancelar'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context)
-                                            .pop(); // Cierra el diálogo
-                                        setState(() {
-                                          _isButtonEnabled =
-                                              false; // Deshabilita el botón
-                                        });
-                                        sendEmail(); // Llama a la función para enviar el correo
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                                'Muchas gracias, hemos enviado su solicitud de adopción con sus datos personalizados. En breve, contactaran con usted'),
-                                            duration: Duration(
-                                                seconds:
-                                                    3), // Mensaje visible por 5 segundos
-                                          ),
-                                        );
-                                        // Mantener el botón deshabilitado tras enviar el formulario
-                                      },
-                                      child: Text('Aceptar'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          }
-                        : null,
-                    child: const Text('ADOPTAME'),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      // TODO: Maneja el "Me gusta"
+                    },
+                    child: const Text('ME GUSTA'),
                   ),
                 )
               : Container(),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(30.0),
-            child: ElevatedButton(
-              onPressed: () async {
-                // TODO: Maneja el "Me gusta"
-              },
-              child: const Text('ME GUSTA'),
-            ),
-          ),
         ],
       ),
     );
