@@ -10,6 +10,7 @@ import 'package:doghero_app/services/api.dart';
 import 'package:doghero_app/services/auth.dart';
 import 'package:doghero_app/utils/routes.dart';
 import 'package:doghero_app/UI/dog_details/details_page.dart';
+import 'package:doghero_app/utils/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
@@ -307,6 +308,10 @@ class _TestState extends State<Test> {
                           Navigator.of(context)
                               .popUntil((route) => route.isFirst);
                           await _auth.signOut();
+                          Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => SplashScreen()),
+                        );
                         } else if (result == 'Preferencias') {
                           Navigator.push(
                             context,
@@ -346,7 +351,7 @@ class _TestState extends State<Test> {
               if (index == 0) {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const Test()),
+                  MaterialPageRoute(builder: (context) => Test()),
                 );
               } else if (index == 1) {
                 Navigator.pushReplacement(

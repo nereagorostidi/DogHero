@@ -6,6 +6,8 @@ import 'package:doghero_app/UI/test.dart';
 import 'package:doghero_app/main.dart';
 import 'package:doghero_app/models/user.dart';
 import 'package:doghero_app/services/auth.dart';
+import 'package:doghero_app/services/wrapper.dart';
+import 'package:doghero_app/utils/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:doghero_app/services/db.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +26,7 @@ class Maps extends StatefulWidget {
 
 class _MapsState extends State<Maps> {
   final AuthService _auth = AuthService();
-  int _page = 1;
+  final int _page = 1;
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   GoogleMapController? mapController;
@@ -69,7 +71,7 @@ class _MapsState extends State<Maps> {
         onError: (error) {
           if (_isDisposed || !mounted) return;
 
-          print('Error in protectoras stream: $error');
+          debugPrint('Error in protectoras stream: $error');
           setState(() {
             errorMessage = 'Error loading protectoras. Please try again.';
             isLoading = false;
@@ -79,7 +81,7 @@ class _MapsState extends State<Maps> {
     } catch (e) {
       if (_isDisposed || !mounted) return;
 
-      print('Error setting up protectoras subscription: $e');
+      debugPrint('Error setting up protectoras subscription: $e');
       setState(() {
         errorMessage = 'Connection error. Please try again.';
         isLoading = false;
@@ -196,28 +198,15 @@ class _MapsState extends State<Maps> {
   }
 
   void _handleNavigation(int index, BuildContext context) {
-    if (index == _page) return;
+  if (index == _page) return;
 
-    Widget nextScreen;
-    switch (index) {
-      case 0:
-        nextScreen = Test();
-        break;
-      case 1:
-        nextScreen = const Maps();
-        break;
-      default:
-        return;
-    }
+  Widget nextScreen = (index == 0) ? const Test() : const Maps();
 
-    _cleanupResources();
-
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => nextScreen),
-      (route) => false,
-    );
-  }
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => nextScreen),
+  );
+}
 
   void _cleanupResources() {
     _protectorasSubscription?.cancel();
@@ -255,6 +244,8 @@ class _MapsState extends State<Maps> {
     }
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return StreamProvider<User?>.value(
@@ -272,14 +263,18 @@ class _MapsState extends State<Maps> {
               child: Scaffold(
                 appBar: AppBar(
                   elevation: 0.0,
-                  title: const Text('DogHero'),
+                  title: const Text('DogHero - Mapa'),
                   actions: <Widget>[
                     PopupMenuButton<String>(
                       onSelected: (String result) async {
                         if (result == 'Salir') {
-                          _cleanupResources(); // Ensure cleanup of resources
+                          _cleanupResources(); // Clean up resources before sign-out
                           Navigator.of(context).popUntil((route) => route.isFirst);
                           await _auth.signOut();
+                          Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => SplashScreen()),
+                        );
                         } else if (result == 'Preferencias') {
                           Navigator.push(
                             context,
@@ -302,8 +297,10 @@ class _MapsState extends State<Maps> {
                 ),
                 body: Column(
                   children: <Widget>[
+                    
                     Expanded(
                       child: _buildMapContent(),
+                      
                     ),
                     CurvedNavigationBar(
                       key: _bottomNavigationKey,

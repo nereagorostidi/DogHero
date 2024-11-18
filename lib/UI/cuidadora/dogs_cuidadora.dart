@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doghero_app/UI/preferencias.dart';
 import 'package:doghero_app/models/dog.dart';
 import 'package:doghero_app/services/auth.dart';
+import 'package:doghero_app/utils/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:doghero_app/models/user.dart';
@@ -58,6 +59,10 @@ class _DogsCuidadoraState extends State<DogsCuidadora> {
                           if (result == 'Salir') {
                             Navigator.of(context).popUntil((route) => route.isFirst);
                             await _auth.signOut();
+                            Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => SplashScreen()),
+                        );
                           } else if (result == 'Preferencias') {
                             Navigator.push(
                               context,

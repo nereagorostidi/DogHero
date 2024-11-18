@@ -24,7 +24,7 @@ class Maps extends StatefulWidget {
 
 class _MapsState extends State<Maps> {
   final AuthService _auth = AuthService();
-  int _page = 1;
+  final int _page = 1;
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   GoogleMapController? mapController;
@@ -69,7 +69,7 @@ class _MapsState extends State<Maps> {
         onError: (error) {
           if (_isDisposed || !mounted) return;
 
-          print('Error in protectoras stream: $error');
+          debugPrint('Error in protectoras stream: $error');
           setState(() {
             errorMessage = 'Error loading protectoras. Please try again.';
             isLoading = false;
@@ -79,7 +79,7 @@ class _MapsState extends State<Maps> {
     } catch (e) {
       if (_isDisposed || !mounted) return;
 
-      print('Error setting up protectoras subscription: $e');
+      debugPrint('Error setting up protectoras subscription: $e');
       setState(() {
         errorMessage = 'Connection error. Please try again.';
         isLoading = false;
@@ -255,6 +255,8 @@ class _MapsState extends State<Maps> {
     }
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return StreamProvider<User?>.value(
@@ -278,8 +280,8 @@ class _MapsState extends State<Maps> {
                       onSelected: (String result) async {
                         if (result == 'Salir') {
                           _cleanupResources(); // Ensure cleanup of resources
-                          Navigator.of(context).popUntil((route) => route.isFirst);
                           await _auth.signOut();
+                          Navigator.of(context).popUntil((route) => route.isFirst);
                         } else if (result == 'Preferencias') {
                           Navigator.push(
                             context,

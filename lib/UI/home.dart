@@ -6,6 +6,7 @@ import 'package:doghero_app/UI/test.dart';
 import 'package:doghero_app/main.dart';
 import 'package:doghero_app/models/user.dart';
 import 'package:doghero_app/services/auth.dart';
+import 'package:doghero_app/utils/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:doghero_app/services/db.dart';
 import 'package:provider/provider.dart';
@@ -48,9 +49,12 @@ class _HomeState extends State<Home> {
                       onSelected: (String result) async {
                         if (result == 'Salir') {
                           // Remove the navigation stack before signing out
-                          Navigator.of(context)
-                              .popUntil((route) => route.isFirst);
+                          Navigator.of(context).popUntil((route) => route.isFirst);
                           await _auth.signOut();
+                          Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => SplashScreen()),
+                        );
                         } else if (result == 'Preferencias') {
                           Navigator.push(
                             context,

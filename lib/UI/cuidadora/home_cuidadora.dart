@@ -6,6 +6,7 @@ import 'package:doghero_app/UI/test.dart';
 import 'package:doghero_app/main.dart';
 import 'package:doghero_app/models/user.dart';
 import 'package:doghero_app/services/auth.dart';
+import 'package:doghero_app/utils/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:doghero_app/services/db.dart';
 import 'package:provider/provider.dart';
@@ -170,6 +171,10 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
                         if (result == 'Salir') {
                           Navigator.of(context).popUntil((route) => route.isFirst);
                           await _auth.signOut();
+                          Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => SplashScreen()),
+                        );
                         } else if (result == 'Preferencias') {
                           Navigator.push(
                             context,
@@ -365,11 +370,11 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
                                                 location: _location,
                                                 );
                                               ScaffoldMessenger.of(context).showSnackBar(
-                                                const SnackBar(content: Text('Dog uploaded')),
+                                                const SnackBar(content: Text('Perro subido con exito')),
                                               );
                                             }
                                           },
-                                          child: const Text('Upload Dog'),
+                                          child: const Text('Subir perro'),
                                         ),
                                       ],
                                     ),
