@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doghero_app/UI/cuidadora/dogs_cuidadora.dart';
 import 'package:doghero_app/UI/dog_list.dart';
@@ -10,7 +11,11 @@ import 'package:doghero_app/services/db.dart';
 import 'package:provider/provider.dart';
 import 'package:doghero_app/UI/preferencias.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:doghero_app/utils/constants.dart'; // Import the constants file
+import 'package:doghero_app/utils/constants.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart' as path;
 
 class CuidadoraHome extends StatefulWidget {
   CuidadoraHome({super.key});
@@ -30,12 +35,118 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
   String _color = '';
   String _description = '';
   String _energyLevel = '';
-  String _location = '';
   String _sex = '';
   String _size = '';
   List<String> _images = [];
+  String _location = '';
+  
+  // New image-related variables
+  File? _imageFile;
+  String _imageUrl = '';
+  final ImagePicker _picker = ImagePicker();
+
+  // Image upload function
+  Future<void> _uploadImage(File image) async {
+    try {
+      String fileName = '${DateTime.now().millisecondsSinceEpoch}${path.extension(image.path)}';
+      
+      Reference ref = FirebaseStorage.instance
+          .ref()
+          .child('dog_images')
+          .child(fileName);
+
+      await ref.putFile(image);
+      String downloadUrl = await ref.getDownloadURL();
+      
+      setState(() {
+        _imageUrl = downloadUrl;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Image uploaded successfully')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to upload image: $e')),
+      );
+    }
+  }
+
+  // Image picker function
+  Future<void> _pickImage(ImageSource source) async {
+    try {
+      final XFile? pickedFile = await _picker.pickImage(
+        source: source,
+        maxWidth: 1200,
+        maxHeight: 1200,
+        imageQuality: 85,
+      );
+
+      if (pickedFile != null) {
+        setState(() {
+          _imageFile = File(pickedFile.path);
+        });
+        await _uploadImage(_imageFile!);
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to pick image: $e')),
+      );
+    }
+  }
+
+  // Image picker widget
+  Widget _buildImagePicker() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Foto del perro',
+          style: TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 8.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton.icon(
+              icon: Icon(Icons.photo_camera),
+              label: Text('Cámara'),
+              onPressed: () => _pickImage(ImageSource.camera),
+            ),
+            ElevatedButton.icon(
+              icon: Icon(Icons.photo_library),
+              label: Text('Galería'),
+              onPressed: () => _pickImage(ImageSource.gallery),
+            ),
+          ],
+        ),
+        SizedBox(height: 8.0),
+        if (_imageFile != null) ...[
+          Container(
+            height: 200,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.file(
+                _imageFile!,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
 
   @override
+
   Widget build(BuildContext context) {
     return StreamProvider<User?>.value(
       value: _auth.user,
@@ -49,7 +160,6 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
               onWillPop: () async => false,
               child: Scaffold(
                 resizeToAvoidBottomInset: false,
-                backgroundColor: Colors.orange,
                 appBar: AppBar(
                   backgroundColor: const Color.fromARGB(255, 87, 88, 88),
                   elevation: 0.0,
@@ -85,108 +195,175 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
                     children: <Widget>[
                       Expanded(
                         child: Container(
-                          decoration: const BoxDecoration(
-                          ),
+                          decoration: const BoxDecoration(),
                           child: SingleChildScrollView(
                             child: Column(
                               children: <Widget>[
                                 Form(
                                   key: _formkey,
                                   child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Column(
-                                    children: <Widget>[
-                                    TextFormField(
-                                      decoration: textFieldDecoration.copyWith(
-                                      hintText: 'Name',
-                                      suffixIcon: Icon(Icons.pets),
-                                      ),
-                                      validator: (value) => value!.isEmpty ? 'Enter a name' : null,
-                                      onChanged: (value) {
-                                      setState(() => _name = value);
-                                      },
-                                    ),
-                                    SizedBox(height: 16.0),
-                                    TextFormField(
-                                      decoration: textFieldDecoration.copyWith(
-                                      hintText: 'Age',
-                                      suffixIcon: Icon(Icons.cake),
-                                      ),
-                                      validator: (value) => value!.isEmpty ? 'Enter an age' : null,
-                                      onChanged: (value) {
-                                      setState(() => _age = int.tryParse(value)!);
-                                      },
-                                    ),
-                                    SizedBox(height: 16.0),
-                                    TextFormField(
-                                      decoration: textFieldDecoration.copyWith(
-                                      hintText: 'Color',
-                                      suffixIcon: Icon(Icons.color_lens),
-                                      ),
-                                      validator: (value) => value!.isEmpty ? 'Enter a color' : null,
-                                      onChanged: (value) {
-                                      setState(() => _color = value);
-                                      },
-                                    ),
-                                    SizedBox(height: 16.0),
-                                    TextFormField(
-                                      decoration: textFieldDecoration.copyWith(
-                                      hintText: 'Description',
-                                      suffixIcon: Icon(Icons.description),
-                                      ),
-                                      validator: (value) => value!.isEmpty ? 'Enter a description' : null,
-                                      onChanged: (value) {
-                                      setState(() => _description = value);
-                                      },
-                                    ),
-                                    SizedBox(height: 16.0),
-                                    TextFormField(
-                                      decoration: textFieldDecoration.copyWith(
-                                      hintText: 'Energy Level',
-                                      suffixIcon: Icon(Icons.battery_full),
-                                      ),
-                                      validator: (value) => value!.isEmpty ? 'Enter an energy level' : null,
-                                      onChanged: (value) {
-                                      setState(() => _energyLevel = value);
-                                      },
-                                    ),
-                                    SizedBox(height: 16.0),
-                                    TextFormField(
-                                      decoration: textFieldDecoration.copyWith(
-                                      hintText: 'Location',
-                                      suffixIcon: Icon(Icons.location_on),
-                                      ),
-                                      validator: (value) => value!.isEmpty ? 'Enter a location' : null,
-                                      onChanged: (value) {
-                                      setState(() => _location = value);
-                                      },
-                                    ),
-                                    SizedBox(height: 16.0),
-                                    TextFormField(
-                                      decoration: textFieldDecoration.copyWith(
-                                      hintText: 'Sex',
-                                      suffixIcon: Icon(Icons.transgender),
-                                      ),
-                                      validator: (value) => value!.isEmpty ? 'Enter a sex' : null,
-                                      onChanged: (value) {
-                                      setState(() => _sex = value);
-                                      },
-                                    ),
-                                    SizedBox(height: 16.0),
-                                    TextFormField(
-                                      decoration: textFieldDecoration.copyWith(
-                                      hintText: 'Size',
-                                      suffixIcon: Icon(Icons.straighten),
-                                      ),
-                                      validator: (value) => value!.isEmpty ? 'Enter a size' : null,
-                                      onChanged: (value) {
-                                      setState(() => _size = value);
-                                      },
-                                    ),
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      children: <Widget>[
+                                        TextFormField(
+                                          decoration: textFieldDecoration.copyWith(
+                                            hintText: 'Nombre',
+                                            suffixIcon: Icon(Icons.pets),
+                                          ),
+                                          validator: (value) => value!.isEmpty ? 'Nombre' : null,
+                                          onChanged: (value) {
+                                            setState(() => _name = value);
+                                          },
+                                        ),
+                                        SizedBox(height: 16.0),
+                                        TextFormField(
+                                          decoration: textFieldDecoration.copyWith(
+                                            hintText: 'Edad',
+                                            suffixIcon: Icon(Icons.cake),
+                                          ),
+                                          validator: (value) => value!.isEmpty ? 'Edad' : null,
+                                          onChanged: (value) {
+                                            setState(() => _age = int.tryParse(value)!);
+                                          },
+                                        ),
+                                        SizedBox(height: 16.0),
+                                        TextFormField(
+                                          decoration: textFieldDecoration.copyWith(
+                                            hintText: 'Color',
+                                            suffixIcon: Icon(Icons.color_lens),
+                                          ),
+                                          validator: (value) => value!.isEmpty ? 'Color' : null,
+                                          onChanged: (value) {
+                                            setState(() => _color = value);
+                                          },
+                                        ),
+                                        SizedBox(height: 16.0),
+                                        TextFormField(
+                                          decoration: textFieldDecoration.copyWith(
+                                            hintText: 'Descripcion',
+                                            suffixIcon: Icon(Icons.description),
+                                          ),
+                                          validator: (value) => value!.isEmpty ? 'Descripcion' : null,
+                                          onChanged: (value) {
+                                            setState(() => _description = value);
+                                          },
+                                        ),
+                                        SizedBox(height: 16.0),
+                                        DropdownButtonFormField<String>(
+                                          decoration: textFieldDecoration.copyWith(
+                                            hintText: 'Sexo',
+                                            suffixIcon: Icon(Icons.transgender),
+                                          ),
+                                          value: _sex.isEmpty ? null : _sex,
+                                          items: ['Masculino', 'Femenino'].map((String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          }).toList(),
+                                          validator: (value) => value == null ? 'Enter a sex' : null,
+                                          onChanged: (value) {
+                                            setState(() => _sex = value!);
+                                          },
+                                        ),
+                                        SizedBox(height: 16.0),
+                                        DropdownButtonFormField<String>(
+                                          decoration: textFieldDecoration.copyWith(
+                                            hintText: 'Tamano',
+                                            suffixIcon: Icon(Icons.straighten),
+                                          ),
+                                          value: _size.isEmpty ? null : _size,
+                                          items: ['Pequeno', 'Mediano', 'Grande'].map((String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          }).toList(),
+                                          validator: (value) => value == null ? 'Enter a size' : null,
+                                          onChanged: (value) {
+                                            setState(() => _size = value!);
+                                          },
+                                        ),
+                                        SizedBox(height: 16.0),
+                                        // Add the image picker here
+                                        _buildImagePicker(),
+                                        SizedBox(height: 16.0),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Atributos',
+                                              style: TextStyle(
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Wrap(
+                                              spacing: 8.0,
+                                              runSpacing: 4.0,
+                                              children: [
+                                                for (var attribute in [
+                                                  {"name": "amigable", "icon": FontAwesomeIcons.child},
+                                                  {"name": "castrado", "icon": FontAwesomeIcons.scissors},
+                                                  {"name": "vacunado", "icon": FontAwesomeIcons.eyeDropper},
+                                                  {"name": "microchipeado", "icon": FontAwesomeIcons.microchip},
+                                                  {"name": "fuerte", "icon": FontAwesomeIcons.ethereum},
+                                                  {"name": "protector", "icon": FontAwesomeIcons.shield},
+                                                  {"name": "leal", "icon": FontAwesomeIcons.star},
+                                                  {"name": "independiente", "icon": FontAwesomeIcons.microchip},
+                                                  {"name": "jugueton", "icon": FontAwesomeIcons.tableTennisPaddleBall},
+                                                  {"name": "curioso", "icon": FontAwesomeIcons.eye},
+                                                  {"name": "valiente", "icon": FontAwesomeIcons.khanda},
+                                                  {"name": "entrenado", "icon": FontAwesomeIcons.dumbbell},
+                                                  {"name": "energético", "icon": FontAwesomeIcons.bolt},
+                                                ])
+                                                  FilterChip(
+                                                    label: Text(attribute["name"] as String),
+                                                    avatar: Icon(attribute["icon"] as IconData),
+                                                    selected: _images.contains(attribute["name"]),
+                                                    onSelected: (bool selected) {
+                                                      setState(() {
+                                                        if (selected) {
+                                                          _images.add(attribute["name"] as String);
+                                                        } else {
+                                                          _images.remove(attribute["name"]);
+                                                        }
+                                                      });
+                                                    },
+                                                  ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 16.0),
                                         ElevatedButton(
                                           onPressed: () async {
-                                            print(user!.uid);
                                             if (_formkey.currentState!.validate()) {
+                                              final dogData = {
+                                                'name': _name,
+                                                'age': _age,
+                                                'color': _color,
+                                                'description': _description,
+                                                'sex': _sex,
+                                                'size': _size,
+                                                'attributes': _images,
+                                                'imageUrl': _imageUrl,
+                                                'userId': user!.uid,
+                                                'timestamp': FieldValue.serverTimestamp(),
+                                              };
+                                              _location = (await DatabaseService(uid: user.uid).getUserLocation())!;
+                                              DatabaseService(uid: user.uid).createDog(
+                                                name: _name,
+                                                age: _age,
+                                                color: _color,
+                                                description: _description,
+                                                sex: _sex,
+                                                size: _size,
+                                                attributes: _images,
+                                                imageUrl: _imageUrl,
+                                                userId: user.uid,
+                                                location: _location,
+                                                );
                                               ScaffoldMessenger.of(context).showSnackBar(
                                                 const SnackBar(content: Text('Dog uploaded')),
                                               );
@@ -203,15 +380,15 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
                           ),
                         ),
                       ),
-                      CurvedNavigationBar(
+                       CurvedNavigationBar(
                         key: _bottomNavigationKey,
                         index: _page,
                         animationDuration: const Duration(milliseconds: 200),
-                        height: 50.0,
                         backgroundColor: const Color.fromARGB(255, 87, 88, 88),
+                        height: 50.0,
                         items: const <Widget>[
-                          Icon(Icons.upload, size: 30),
-                          Icon(Icons.list, size: 30),
+                          Icon(Icons.upload, size: 30, color: Colors.black45),
+                          Icon(Icons.list, size: 30, color: Colors.black45),
                         ],
                         onTap: (index) {
                           setState(() {

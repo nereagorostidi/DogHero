@@ -26,11 +26,11 @@ class _MapsState extends State<Maps> {
   final AuthService _auth = AuthService();
   int _page = 1;
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
-  
+
   GoogleMapController? mapController;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   Set<Marker> markers = {};
-  
+
   Position? currentPosition;
   bool isLoading = true;
   String? errorMessage;
@@ -50,6 +50,7 @@ class _MapsState extends State<Maps> {
   }
 
   void _subscribeToProtectoras() {
+    if (_protectorasSubscription != null) return; // Avoid duplicate subscriptions
     try {
       // Cancel existing subscription if any
       _protectorasSubscription?.cancel();
@@ -62,12 +63,12 @@ class _MapsState extends State<Maps> {
           .listen(
         (snapshot) {
           if (_isDisposed || !mounted) return;
-          
+
           _handleProtectorasSnapshot(snapshot);
         },
         onError: (error) {
           if (_isDisposed || !mounted) return;
-          
+
           print('Error in protectoras stream: $error');
           setState(() {
             errorMessage = 'Error loading protectoras. Please try again.';
@@ -77,7 +78,7 @@ class _MapsState extends State<Maps> {
       );
     } catch (e) {
       if (_isDisposed || !mounted) return;
-      
+
       print('Error setting up protectoras subscription: $e');
       setState(() {
         errorMessage = 'Connection error. Please try again.';
@@ -92,10 +93,10 @@ class _MapsState extends State<Maps> {
 
       for (var doc in snapshot.docs) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-        
+
         if (data.containsKey('coords') && data['coords'] != null) {
           GeoPoint coords = data['coords'] as GeoPoint;
-          
+
           final marker = Marker(
             markerId: MarkerId(doc.id),
             position: LatLng(coords.latitude, coords.longitude),
@@ -156,7 +157,7 @@ class _MapsState extends State<Maps> {
       }
     } catch (e) {
       if (!mounted) return;
-      
+
       setState(() {
         errorMessage = e.toString();
         isLoading = false;
@@ -181,10 +182,10 @@ class _MapsState extends State<Maps> {
           throw 'Location permissions are denied';
         }
       }
-      
+
       if (permission == LocationPermission.deniedForever) {
         throw 'Location permissions are permanently denied. Please enable them in your device settings.';
-      } 
+      }
 
       return await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
@@ -221,7 +222,7 @@ class _MapsState extends State<Maps> {
   void _cleanupResources() {
     _protectorasSubscription?.cancel();
     if (mapController != null) {
-      mapController!.dispose();
+      mapController!.dispose(); // Dispose the map controller explicitly
       mapController = null;
     }
   }
@@ -276,20 +277,17 @@ class _MapsState extends State<Maps> {
                     PopupMenuButton<String>(
                       onSelected: (String result) async {
                         if (result == 'Salir') {
-                          _cleanupResources();
-                          Navigator.of(context)
-                              .popUntil((route) => route.isFirst);
+                          _cleanupResources(); // Ensure cleanup of resources
+                          Navigator.of(context).popUntil((route) => route.isFirst);
                           await _auth.signOut();
                         } else if (result == 'Preferencias') {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => const Preferencias()),
+                            MaterialPageRoute(builder: (context) => const Preferencias()),
                           );
                         }
                       },
-                      itemBuilder: (BuildContext context) =>
-                          <PopupMenuEntry<String>>[
+                      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                         const PopupMenuItem<String>(
                           value: 'Preferencias',
                           child: Text('Preferencias'),

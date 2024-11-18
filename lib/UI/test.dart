@@ -304,7 +304,6 @@ class _TestState extends State<Test> {
                     PopupMenuButton<String>(
                       onSelected: (String result) async {
                         if (result == 'Salir') {
-                          // Remove the navigation stack before signing out
                           Navigator.of(context)
                               .popUntil((route) => route.isFirst);
                           await _auth.signOut();
@@ -334,8 +333,9 @@ class _TestState extends State<Test> {
         bottomNavigationBar: CurvedNavigationBar(
           key: _bottomNavigationKey,
           index: 0,
-          backgroundColor: const Color.fromARGB(255, 87, 88,
-              88), //placeholder this need to be changed to our color palette
+          backgroundColor: const Color.fromARGB(255, 87, 88,88),
+          height: 50.0,
+           //placeholder this need to be changed to our color palette
           items: const <Widget>[
             Icon(Icons.list, size: 30, color: Colors.black45),
             Icon(Icons.map, size: 30, color: Colors.black45),
@@ -358,6 +358,7 @@ class _TestState extends State<Test> {
             });
           },
           letIndexChange: (value) => true,
-        ));
+        )
+  );
   }
 }

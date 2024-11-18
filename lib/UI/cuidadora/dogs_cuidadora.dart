@@ -48,11 +48,10 @@ class _DogsCuidadoraState extends State<DogsCuidadora> {
               return WillPopScope(
                 onWillPop: () async => false,
                 child: Scaffold(
-                backgroundColor: Colors.orange,
                   appBar: AppBar(
                     backgroundColor: const Color.fromARGB(255, 87, 88, 88),
                     elevation: 0.0,
-                    title: const Text('Dogs a'),
+                    title: const Text('DogHero - Adopcion'),
                     actions: <Widget>[
                       PopupMenuButton<String>(
                         onSelected: (String result) async {
@@ -93,33 +92,33 @@ class _DogsCuidadoraState extends State<DogsCuidadora> {
                     },
                   ),
                   bottomNavigationBar: CurvedNavigationBar(
-                    key: _bottomNavigationKey,
-                    index: _page,
-                    animationDuration: const Duration(milliseconds: 200),
-                    height: 50.0,
-                    backgroundColor: const Color.fromARGB(255, 87, 88, 88),
-                    items: const <Widget>[
-                      Icon(Icons.upload, size: 30),
-                      Icon(Icons.list, size: 30),
-                    ],
-                    onTap: (index) {
-                      setState(() {
-                        _page = index;
-                        if (index == 1) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => DogsCuidadora()),
-                          );
-                        } else if (index == 0) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => CuidadoraHome()),
-                          );
-                        }
-                      });
-                    },
-                    letIndexChange: (value) => true,
-                  ),
+                        key: _bottomNavigationKey,
+                        index: _page,
+                        animationDuration: const Duration(milliseconds: 200),
+                        backgroundColor: const Color.fromARGB(255, 87, 88, 88),
+                        height: 50.0,
+                        items: const <Widget>[
+                          Icon(Icons.upload, size: 30, color: Colors.black45),
+                          Icon(Icons.list, size: 30, color: Colors.black45),
+                        ],
+                        onTap: (index) {
+                          setState(() {
+                            _page = index;
+                            if (index == 1) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => DogsCuidadora()),
+                              );
+                            } else if (index == 0) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => CuidadoraHome()),
+                              );
+                            }
+                          });
+                        },
+                        letIndexChange: (value) => true,
+                      ),
                 ),
               );
             },

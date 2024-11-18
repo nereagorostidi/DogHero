@@ -63,7 +63,7 @@ class Dog {
       donationContactEmail: json['donation_contact_email'] ?? '',
       status: json['status'] ?? '',
       size: json['size'] ?? '',
-      age: json['age'] ?? '',
+      age: json['age'] != null ? json['age'].toString() : '',
       energyLevel: json['energy_level'] ?? '',
     );
   }
