@@ -40,6 +40,7 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
   String _size = '';
   List<String> _images = [];
   String _location = '';
+  String _status = 'ready-to-adopt';
   
   File? _imageFile;
   String _imageUrl = '';
@@ -377,6 +378,7 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
                                                 imageUrl: _imageUrl,
                                                 userId: user.uid,
                                                 location: _location,
+                                                status: _status,
                                                 );
                                               ScaffoldMessenger.of(context).showSnackBar(
                                                 const SnackBar(content: Text('Perro subido con exito')),

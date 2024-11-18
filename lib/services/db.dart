@@ -232,6 +232,7 @@ class DatabaseService {
     required String imageUrl,
     required String userId,
     required String location,
+    required String status,
   }) async {
     try {
       await dogsCollection.add({
@@ -247,6 +248,7 @@ class DatabaseService {
         'id_cuidadora': userId,
         'location': location,
         'timestamp': FieldValue.serverTimestamp(),
+        'status': status,
       });
       print('Dog created successfully');
     } catch (e) {
