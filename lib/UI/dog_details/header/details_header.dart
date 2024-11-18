@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doghero_app/models/dog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -27,12 +28,33 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
   String whyAdopt = ""; // Nueva variable para la razón de adopción
   String makeHappy = ""; // Nueva variable para cómo hará feliz al perro
   String fcmToken = ""; // Token FCM del usuario
+  String? titleText; // Variable para controlar el título dinámico
 
   /// Obtiene los datos del usuario desde Firestore
   Future<void> _fetchUserData() async {
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid != null) {
       DatabaseService dbService = DatabaseService(uid: uid);
+
+      // Recupera los datos completos del perro desde Firebase
+      var dogData = await dbService.getDogData(widget.dog.id);
+
+      setState(() {
+        // Actualiza el estado del botón y el estado del perro
+        _isButtonEnabled = dogData['buttonEnabled'] ?? true; // Estado del botón
+        widget.dog.status =
+            dogData['status'] ?? 'ready-to-adopt'; // Estado del perro
+        // Actualiza el título dinámico según el estado del perro
+        if (widget.dog.status == "reservated") {
+          titleText = "RESERVADO";
+        } else if (widget.dog.status == "adopted") {
+          titleText = "ADOPTADO";
+        } else {
+          titleText = null; // Sin título si está listo para adoptar
+        }
+      });
+
+      DatabaseService anotherdbService = DatabaseService(uid: uid);
       String? name = await dbService.getUserName();
       int? phone = await dbService.getUserPhone();
       String? surName = await dbService.getUserSurname();
@@ -129,10 +151,12 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
       bool success =
           await dbService.updateDogStatus(widget.dog.id, "reservated");
       if (success) {
-        /*print('Dog status updated to reserved');
+        print('Dog status updated to reserved');
+        // Guarda el estado del botón en Firebase
+        await dbService.updateDogButtonState(widget.dog.id, false);
         setState(() {
-          showButton = false; // Desactiva el botón de adopción
-        });*/
+          _isButtonEnabled = false; // Deshabilita el botón de adopción
+        });
       } else {
         print('Failed to update dog status');
       }
@@ -140,6 +164,21 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
       print('Error while updating dog status: $e');
     }
     print('showButton $showButton');
+  }
+
+  Future<void> updateDogButtonState(String dogId, bool isEnabled) async {
+    try {
+      // Referencia al documento del perro en la colección 'dogs'
+      DocumentReference dogDoc =
+          FirebaseFirestore.instance.collection('dogs').doc(dogId);
+
+      // Actualiza el campo 'buttonEnabled'
+      await dogDoc.update({'buttonEnabled': isEnabled});
+      print('El estado del botón se actualizó correctamente.');
+    } catch (e) {
+      print('Error al actualizar el estado del botón: $e');
+      throw Exception('No se pudo actualizar el estado del botón.');
+    }
   }
 
   bool showButton = true;
@@ -183,7 +222,7 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          widget.dog.status == "ready-to-adopt" && showButton == true
+          widget.dog.status == "ready-to-adopt"
               ? ClipRRect(
                   borderRadius: BorderRadius.circular(30.0),
                   child: MaterialButton(
@@ -193,7 +232,8 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
                         .colorScheme
                         .secondary
                         .withOpacity(0.5), // Color para botón deshabilitado
-                    onPressed: _isButtonEnabled
+                    onPressed: (widget.dog.status == "ready-to-adopt" &&
+                            _isButtonEnabled)
                         ? () {
                             // Mostrar el AlertDialog
                             showDialog(
@@ -227,7 +267,7 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
                                                 'Muchas gracias, hemos enviado su solicitud de adopción con sus datos personalizados. En breve, contactaran con usted'),
                                             duration: Duration(
                                                 seconds:
-                                                    5), // Mensaje visible por 5 segundos
+                                                    3), // Mensaje visible por 5 segundos
                                           ),
                                         );
                                         // Mantener el botón deshabilitado tras enviar el formulario
@@ -264,6 +304,17 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
           heightFactor: 1.4,
           child: Column(
             children: [
+              if (titleText != null) // Solo muestra el título si no es null
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    titleText!, // Muestra el texto dinámico
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               avatar,
               likeInfo,
               actionButtons,

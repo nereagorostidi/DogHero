@@ -15,7 +15,7 @@ class Dog {
   final List<String> pictures;
   final List<String> dogattributes;
   final String donationContactEmail;
-  final String status;
+  String status;
   final String size;
   final String age;
   final String energyLevel;
@@ -41,7 +41,7 @@ class Dog {
     required this.energyLevel,
   });
 
-  factory Dog.fromJson(Map<String, dynamic> json,String id) {
+  factory Dog.fromJson(Map<String, dynamic> json, String id) {
     return Dog(
       id: id,
       externalId: json['id'] != null ? json['id'] as int : 0,
