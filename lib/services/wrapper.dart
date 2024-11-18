@@ -4,6 +4,7 @@ import 'package:doghero_app/UI/dog_list.dart';
 import 'package:doghero_app/UI/home.dart';
 import 'package:doghero_app/UI/auth/login.dart';
 import 'package:doghero_app/UI/auth/register.dart';
+import 'package:doghero_app/UI/preferencias.dart';
 import 'package:doghero_app/UI/test.dart';
 import 'package:doghero_app/models/user.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,9 @@ class Wrapper extends StatelessWidget {
           
           if (userData['role'] == 'protectora') {
             return CuidadoraHome();
+          }
+          if (userData['name'] == 'new user'){
+            return Preferencias();
           }
         }
 

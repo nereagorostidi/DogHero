@@ -48,8 +48,7 @@ class DogHero extends StatelessWidget {
               useMaterial3: false),*/
           theme: lightTheme,
           darkTheme: darkTheme,
-          themeMode: ThemeMode
-              .system, // Cambia automáticamente entre light y dark según el sistema
+          themeMode: ThemeMode.system, // Cambia automáticamente entre light y dark según el sistema
           debugShowCheckedModeBanner: false,
           home: const SplashScreen(),
         ));

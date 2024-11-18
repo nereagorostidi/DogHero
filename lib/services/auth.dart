@@ -39,7 +39,7 @@ Stream<dogheroUser.User?> get user {
       await DatabaseService(uid: user.uid).updateUserData(
           name: 'new user',
           surname: '', // Proporciona valores predeterminados
-          location: 'location',
+          location: '',
           phone: 0,
           whyAdopt: '', // Proporciona valores predeterminados
           makeHappy: '', // Proporciona valores predeterminados
