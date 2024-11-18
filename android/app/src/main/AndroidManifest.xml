@@ -39,6 +39,10 @@
 
         <!-- Meta-datos requeridos para Flutter -->
         <meta-data android:name="flutterEmbedding" android:value="2"/>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/icon_push_color"/>
         
         <!-- Servicio de FCM para manejar las notificaciones push -->
         <service 

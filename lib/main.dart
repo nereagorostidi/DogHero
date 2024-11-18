@@ -2,6 +2,7 @@ import 'package:doghero_app/config/dark_theme.dart';
 import 'package:doghero_app/config/ligth_theme.dart';
 import 'package:doghero_app/models/user.dart';
 import 'package:doghero_app/services/auth.dart';
+import 'package:doghero_app/services/firebase_service.dart';
 import 'package:doghero_app/utils/splash_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -10,12 +11,24 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  // Este navigator key es para poder navegar desde cualquier parte de la app
+
   await Firebase.initializeApp();
-  runApp(const DogHero());
+  FirebaseService fs = FirebaseService(navigatorKey);
+  // se inicializa el servicio de firebase para el manejo de la base de datos, el storage y la autenticación
+  await fs.init();
+
+  runApp(DogHero(navigatorKey: navigatorKey));
 }
 
 class DogHero extends StatelessWidget {
-  const DogHero({super.key});
+  final GlobalKey<NavigatorState> navigatorKey;
+
+  const DogHero({
+    super.key,
+    required this.navigatorKey,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +36,7 @@ class DogHero extends StatelessWidget {
         value: AuthService().user,
         initialData: null,
         child: MaterialApp(
+          navigatorKey: navigatorKey,  // se le pasa el navigator key a la app, para que pueda mostrar las alertas
           /*theme: ThemeData(
               primaryColor: Color(0xFFFF5722),
               primaryColorDark: Color(0xFFe64a19),

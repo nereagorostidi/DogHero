@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1077133132108",
+    "firebase_url": "https://doghero-832db-default-rtdb.firebaseio.com",
     "project_id": "doghero-832db",
     "storage_bucket": "doghero-832db.appspot.com"
   },
@@ -12,7 +13,12 @@
           "package_name": "com.example.doghero_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1077133132108-luesjqc009kehijt9iab7buscug9e621.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDHjIT0LAkzj0d8ygWVCpmCKpZ1nU9VDnM"
@@ -20,7 +26,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1077133132108-luesjqc009kehijt9iab7buscug9e621.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
