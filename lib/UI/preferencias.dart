@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:doghero_app/services/auth.dart';
+import 'package:doghero_app/utils/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:doghero_app/services/db.dart';
 import 'package:provider/provider.dart';
@@ -230,6 +231,10 @@ class _PreferenciasState extends State<Preferencias> {
                                       content: Text(
                                           'Datos guardados correctamente'),
                                     ),
+                                  );
+                                  Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => SplashScreen()),
                                   );
                                 }
                               },

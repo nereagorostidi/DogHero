@@ -256,19 +256,21 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
                                         SizedBox(height: 16.0),
                                         DropdownButtonFormField<String>(
                                           decoration: textFieldDecoration.copyWith(
-                                            hintText: 'Sexo',
-                                            suffixIcon: Icon(Icons.transgender),
+                                          hintText: 'Sexo',
+                                          suffixIcon: Icon(Icons.transgender),
                                           ),
                                           value: _sex.isEmpty ? null : _sex,
-                                          items: ['Masculino', 'Femenino'].map((String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(value),
-                                            );
+                                          items: ['Macho', 'Hembra'].map((String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(value),
+                                          );
                                           }).toList(),
                                           validator: (value) => value == null ? 'Enter a sex' : null,
                                           onChanged: (value) {
-                                            setState(() => _sex = value!);
+                                          setState(() {
+                                            _sex = value == 'Macho' ? 'male' : 'female';
+                                          });
                                           },
                                         ),
                                         SizedBox(height: 16.0),
@@ -286,7 +288,15 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
                                           }).toList(),
                                           validator: (value) => value == null ? 'Enter a size' : null,
                                           onChanged: (value) {
-                                            setState(() => _size = value!);
+                                            setState(() {
+                                              if(value == 'Pequeno') {
+                                                _size = 'small';
+                                              } else if(value == 'Mediano') {
+                                                _size = 'medium';
+                                              } else {
+                                                _size = 'large';
+                                              }
+                                            });
                                           },
                                         ),
                                         SizedBox(height: 16.0),
