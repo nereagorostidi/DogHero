@@ -3,8 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doghero_app/UI/dog_list.dart';
 import 'package:doghero_app/UI/filter_screen.dart';
 import 'package:doghero_app/UI/home.dart';
+import 'package:doghero_app/UI/maps.dart';
+import 'package:doghero_app/UI/preferencias.dart';
 import 'package:doghero_app/models/dog.dart';
 import 'package:doghero_app/services/api.dart';
+import 'package:doghero_app/services/auth.dart';
 import 'package:doghero_app/utils/routes.dart';
 import 'package:doghero_app/UI/dog_details/details_page.dart';
 import 'package:flutter/material.dart';
@@ -284,6 +287,8 @@ class _TestState extends State<Test> {
   }
 
   int _page = 1;
+  final AuthService _auth = AuthService();
+
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   @override
@@ -291,35 +296,65 @@ class _TestState extends State<Test> {
     return Scaffold(
         //backgroundColor: Colors.orange,
         //appbar
+        appBar: AppBar(
+                  //backgroundColor: const Color.fromARGB(255, 87, 88, 88),
+                  elevation: 0.0,
+                  title: const Text('DogHero'),
+                  actions: <Widget>[
+                    PopupMenuButton<String>(
+                      onSelected: (String result) async {
+                        if (result == 'Salir') {
+                          // Remove the navigation stack before signing out
+                          Navigator.of(context)
+                              .popUntil((route) => route.isFirst);
+                          await _auth.signOut();
+                        } else if (result == 'Preferencias') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Preferencias()),
+                          );
+                        }
+                      },
+                      itemBuilder: (BuildContext context) =>
+                          <PopupMenuEntry<String>>[
+                        const PopupMenuItem<String>(
+                          value: 'Preferencias',
+                          child: Text('Preferencias'),
+                        ),
+                        const PopupMenuItem<String>(
+                          value: 'Salir',
+                          child: Text('Salir'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
         body: _buildBody(),
         bottomNavigationBar: CurvedNavigationBar(
           key: _bottomNavigationKey,
-          index: 1,
+          index: 0,
           backgroundColor: const Color.fromARGB(255, 87, 88,
               88), //placeholder this need to be changed to our color palette
           items: const <Widget>[
-            Icon(
-              Icons.home,
-              size: 30,
-              color: Colors.black45,
-            ),
             Icon(Icons.list, size: 30, color: Colors.black45),
-            Icon(Icons.add, size: 30, color: Colors.black45),
+            Icon(Icons.map, size: 30, color: Colors.black45),
           ],
           onTap: (index) {
             setState(() {
               _page = index;
-              if (index == 1) {
+              if (index == 0) {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const Test()),
                 );
-              } else if (index == 0) {
+              } else if (index == 1) {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => Home()),
+                  MaterialPageRoute(builder: (context) => Maps()),
                 );
               }
+              
             });
           },
           letIndexChange: (value) => true,

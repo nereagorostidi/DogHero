@@ -3,6 +3,7 @@ import 'package:doghero_app/UI/dog_list.dart';
 import 'package:doghero_app/UI/home.dart';
 import 'package:doghero_app/UI/auth/login.dart';
 import 'package:doghero_app/UI/auth/register.dart';
+import 'package:doghero_app/UI/test.dart';
 import 'package:doghero_app/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class Wrapper extends StatelessWidget {
     if (user == null) {
       return const Auth();
     } else {
-      return Home();
+      return Test();
     }
   }
 }
