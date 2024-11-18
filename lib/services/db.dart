@@ -187,6 +187,39 @@ class DatabaseService {
     }
   }
 
+  // Método para actualizar el estado del botón
+  Future<void> updateDogButtonState(String dogId, bool isEnabled) async {
+    try {
+      DocumentReference dogDoc =
+          FirebaseFirestore.instance.collection('dogs').doc(dogId);
+
+      await dogDoc.update({'buttonEnabled': isEnabled});
+      print('Estado del botón actualizado correctamente en Firebase.');
+    } catch (e) {
+      print('Error al actualizar el estado del botón: $e');
+      throw Exception('No se pudo actualizar el estado del botón.');
+    }
+  }
+
+  // Recupera el estado del botón desde Firebase
+  Future<bool?> getDogButtonState(String dogId) async {
+    var docSnapshot =
+        await FirebaseFirestore.instance.collection('dogs').doc(dogId).get();
+    return docSnapshot.data()?['buttonEnabled'] as bool?;
+  }
+
+  Future<Map<String, dynamic>> getDogData(String dogId) async {
+    try {
+      DocumentSnapshot dogDoc =
+          await FirebaseFirestore.instance.collection('dogs').doc(dogId).get();
+
+      return dogDoc.data() as Map<String, dynamic>;
+    } catch (e) {
+      print('Error al recuperar los datos del perro: $e');
+      return {};
+    }
+  }
+
   // ======================
   // Stream para observar cambios en los datos de usuarios
   // ======================
