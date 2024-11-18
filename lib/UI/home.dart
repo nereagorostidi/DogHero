@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doghero_app/UI/dog_list.dart';
+import 'package:doghero_app/UI/cuidadora/home_cuidadora.dart';
 import 'package:doghero_app/UI/test.dart';
 import 'package:doghero_app/main.dart';
 import 'package:doghero_app/models/user.dart';
