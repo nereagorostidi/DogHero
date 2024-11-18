@@ -36,12 +36,11 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
   String _color = '';
   String _description = '';
   String _energyLevel = '';
-  String _sex = '';
+  String _sex = 'Macho'; 
   String _size = '';
   List<String> _images = [];
   String _location = '';
   
-  // New image-related variables
   File? _imageFile;
   String _imageUrl = '';
   final ImagePicker _picker = ImagePicker();
@@ -259,7 +258,7 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
                                           hintText: 'Sexo',
                                           suffixIcon: Icon(Icons.transgender),
                                           ),
-                                          value: _sex.isEmpty ? null : _sex,
+                                          value: _sex.isEmpty ? null : (_sex == 'Macho' ? 'Macho' : 'Hembra'),
                                           items: ['Macho', 'Hembra'].map((String value) {
                                           return DropdownMenuItem<String>(
                                             value: value,
@@ -279,7 +278,7 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
                                             hintText: 'Tamano',
                                             suffixIcon: Icon(Icons.straighten),
                                           ),
-                                          value: _size.isEmpty ? null : _size,
+                                          value: _size.isEmpty ? null : (_size == 'small' ? 'Pequeno' : (_size == 'medium' ? 'Mediano' : 'Grande')),
                                           items: ['Pequeno', 'Mediano', 'Grande'].map((String value) {
                                             return DropdownMenuItem<String>(
                                               value: value,
