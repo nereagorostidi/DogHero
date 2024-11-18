@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doghero_app/UI/preferencias.dart';
 import 'package:doghero_app/models/dog.dart';
 import 'package:doghero_app/services/auth.dart';
+import 'package:doghero_app/utils/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:doghero_app/models/user.dart';
@@ -48,17 +49,20 @@ class _DogsCuidadoraState extends State<DogsCuidadora> {
               return WillPopScope(
                 onWillPop: () async => false,
                 child: Scaffold(
-                backgroundColor: Colors.orange,
                   appBar: AppBar(
                     backgroundColor: const Color.fromARGB(255, 87, 88, 88),
                     elevation: 0.0,
-                    title: const Text('Dogs a'),
+                    title: const Text('DogHero - Adopcion'),
                     actions: <Widget>[
                       PopupMenuButton<String>(
                         onSelected: (String result) async {
                           if (result == 'Salir') {
                             Navigator.of(context).popUntil((route) => route.isFirst);
                             await _auth.signOut();
+                            Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => SplashScreen()),
+                        );
                           } else if (result == 'Preferencias') {
                             Navigator.push(
                               context,
@@ -93,33 +97,33 @@ class _DogsCuidadoraState extends State<DogsCuidadora> {
                     },
                   ),
                   bottomNavigationBar: CurvedNavigationBar(
-                    key: _bottomNavigationKey,
-                    index: _page,
-                    animationDuration: const Duration(milliseconds: 200),
-                    height: 50.0,
-                    backgroundColor: const Color.fromARGB(255, 87, 88, 88),
-                    items: const <Widget>[
-                      Icon(Icons.upload, size: 30),
-                      Icon(Icons.list, size: 30),
-                    ],
-                    onTap: (index) {
-                      setState(() {
-                        _page = index;
-                        if (index == 1) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => DogsCuidadora()),
-                          );
-                        } else if (index == 0) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => CuidadoraHome()),
-                          );
-                        }
-                      });
-                    },
-                    letIndexChange: (value) => true,
-                  ),
+                        key: _bottomNavigationKey,
+                        index: _page,
+                        animationDuration: const Duration(milliseconds: 200),
+                        backgroundColor: const Color.fromARGB(255, 87, 88, 88),
+                        height: 50.0,
+                        items: const <Widget>[
+                          Icon(Icons.upload, size: 30, color: Colors.black45),
+                          Icon(Icons.list, size: 30, color: Colors.black45),
+                        ],
+                        onTap: (index) {
+                          setState(() {
+                            _page = index;
+                            if (index == 1) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => DogsCuidadora()),
+                              );
+                            } else if (index == 0) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => CuidadoraHome()),
+                              );
+                            }
+                          });
+                        },
+                        letIndexChange: (value) => true,
+                      ),
                 ),
               );
             },

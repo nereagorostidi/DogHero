@@ -220,6 +220,41 @@ class DatabaseService {
     }
   }
 
+  //Metodo para crear perros
+  Future<void> createDog({
+    required String name,
+    required int age,
+    required String color,
+    required String description,
+    required String sex,
+    required String size,
+    required List<String> attributes,
+    required String imageUrl,
+    required String userId,
+    required String location,
+  }) async {
+    try {
+      await dogsCollection.add({
+        'name': name,
+        'age': age,
+        'color': color,
+        'description': description,
+        'sex': sex,
+        'size': size,
+        'attributes': attributes,
+        'image_url': imageUrl,
+        'pictures': [imageUrl],
+        'id_cuidadora': userId,
+        'location': location,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+      print('Dog created successfully');
+    } catch (e) {
+      print('Error creating dog: $e');
+      throw Exception('Failed to create dog');
+    }
+  }
+
   // ======================
   // Stream para observar cambios en los datos de usuarios
   // ======================
