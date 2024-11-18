@@ -147,12 +147,6 @@ class _HomeState extends State<Home> {
                       },
                       letIndexChange: (value) => true,
                     ),
-                    FloatingActionButton(onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => CuidadoraHome()),
-                      );
-                    })
                   ],
                 ),
               ),

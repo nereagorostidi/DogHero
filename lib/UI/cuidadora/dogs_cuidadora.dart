@@ -42,7 +42,7 @@ class _DogsCuidadoraState extends State<DogsCuidadora> {
               }
 
               List<Dog> dogs = snapshot.data!.docs.map((doc) {
-                return Dog.fromJson(doc.data() as Map<String, dynamic>);
+                return Dog.fromJson(doc.data() as Map<String, dynamic>, doc.id);
               }).toList();
 
               return WillPopScope(
