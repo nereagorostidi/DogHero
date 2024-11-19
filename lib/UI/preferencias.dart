@@ -28,6 +28,7 @@ class _PreferenciasState extends State<Preferencias> {
   String _whyAdopt = '';
   String _makeHappy = '';
   String? _fcmToken;
+  String _email = '';
 
   // Controladores de texto para los campos
   final TextEditingController _nameController = TextEditingController();
@@ -36,6 +37,7 @@ class _PreferenciasState extends State<Preferencias> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _whyAdoptController = TextEditingController();
   final TextEditingController _makeHappyController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
   @override
   void initState() {
@@ -65,6 +67,7 @@ class _PreferenciasState extends State<Preferencias> {
       int? phone = await dbService.getUserPhone();
       String? whyAdopt = await dbService.getWhyAdopt();
       String? makeHappy = await dbService.getMakeHappy();
+      String? email = await dbService.getUserEmail();
 
       setState(() {
         _name = name ?? '';
@@ -73,6 +76,7 @@ class _PreferenciasState extends State<Preferencias> {
         _number = phone ?? 0;
         _whyAdopt = whyAdopt ?? '';
         _makeHappy = makeHappy ?? '';
+        _email = email ?? '';
 
         // Actualiza los controladores de texto con los datos cargados
         _nameController.text = _name;
@@ -81,6 +85,7 @@ class _PreferenciasState extends State<Preferencias> {
         _phoneController.text = _number > 0 ? _number.toString() : '';
         _whyAdoptController.text = _whyAdopt;
         _makeHappyController.text = _makeHappy;
+        _emailController.text = _email;
       });
     }
   }
@@ -178,6 +183,19 @@ class _PreferenciasState extends State<Preferencias> {
                               },
                             ),
                             const SizedBox(height: 20.0),
+                            TextFormField(
+                              controller: _emailController,
+                              decoration: textFieldDecoration.copyWith(
+                                hintText: 'Email',
+                                suffixIcon: const Icon(Icons.email),
+                              ),
+                              validator: (val) =>
+                                  val!.isEmpty ? 'Introduce un email' : null,
+                              onChanged: (val) {
+                                setState(() => _email = val);
+                              },
+                            ),
+                            const SizedBox(height: 20.0),
                             // Campo: ¿Por qué quieres adoptar?
                             TextFormField(
                               controller: _whyAdoptController,
@@ -225,6 +243,7 @@ class _PreferenciasState extends State<Preferencias> {
                                     whyAdopt: _whyAdopt,
                                     makeHappy: _makeHappy,
                                     fcmToken: _fcmToken,
+                                    email: _email,
                                   );
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(

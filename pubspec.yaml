@@ -45,7 +45,13 @@ dev_dependencies:
   injectable_generator: ^2.1.5
   # add build runner if not already added  
   build_runner: ^2.3.3
-  
+  flutter_launcher_icons: ^0.14.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo_nuevo.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21  
 
 flutter:
   uses-material-design: true
@@ -62,5 +68,4 @@ flutter:
     - assets/images/pantalla_splash.jpeg
     - assets/images/home_screen.png
     - assets/images/logo_nuevo.png
-
 

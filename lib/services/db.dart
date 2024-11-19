@@ -24,7 +24,8 @@ class DatabaseService {
     required int phone,
     required String whyAdopt,
     required String makeHappy,
-    String? fcmToken, // FCM token opcional
+    required String email,
+    String? fcmToken,// FCM token opcional
   }) async {
     Map<String, dynamic> userData = {
       'name': name,
@@ -33,6 +34,7 @@ class DatabaseService {
       'phone': phone,
       'whyAdopt': whyAdopt,
       'makeHappy': makeHappy,
+      'email': email,
     };
 
     // Agrega el FCM token si está disponible
@@ -223,7 +225,7 @@ class DatabaseService {
   //Metodo para crear perros
   Future<void> createDog({
     required String name,
-    required int age,
+    required String age,
     required String color,
     required String description,
     required String sex,
@@ -233,6 +235,7 @@ class DatabaseService {
     required String userId,
     required String location,
     required String status,
+    required String email,
   }) async {
     try {
       await dogsCollection.add({
@@ -249,6 +252,7 @@ class DatabaseService {
         'location': location,
         'timestamp': FieldValue.serverTimestamp(),
         'status': status,
+        'donation_contact_email': email,
       });
       print('Dog created successfully');
     } catch (e) {
