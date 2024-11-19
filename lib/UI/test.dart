@@ -271,7 +271,8 @@ class _TestState extends State<Test> {
                     onTap: _navigateToFilterScreen,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.surface,
+                        //color: Colors.white,
                         borderRadius: BorderRadius.circular(11),
                       ),
                       child: const Padding(
@@ -282,7 +283,7 @@ class _TestState extends State<Test> {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
