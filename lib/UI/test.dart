@@ -237,13 +237,17 @@ class _TestState extends State<Test> {
 
   Widget _buildBody() {
     return Container(
-        margin: const EdgeInsets.fromLTRB(8.0, 56.0, 8.0, 0.0),
+        margin: const EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 0.0),
         child: Column(
           children: [
-            _getAppTittleWidget(),
-            const SizedBox(
-              height: 20,
+            Padding(
+              padding:
+                  const EdgeInsets.only(bottom: 8.0), // Reduce espacio inferior
+              child: _getAppTittleWidget(),
             ),
+            /*const SizedBox(
+              height: 20,
+            ),*/
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -298,49 +302,47 @@ class _TestState extends State<Test> {
         //backgroundColor: Colors.orange,
         //appbar
         appBar: AppBar(
-                  //backgroundColor: const Color.fromARGB(255, 87, 88, 88),
-                  elevation: 0.0,
-                  title: const Text('DogHero'),
-                  actions: <Widget>[
-                    PopupMenuButton<String>(
-                      onSelected: (String result) async {
-                        if (result == 'Salir') {
-                          Navigator.of(context)
-                              .popUntil((route) => route.isFirst);
-                          await _auth.signOut();
-                          Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => SplashScreen()),
-                        );
-                        } else if (result == 'Preferencias') {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Preferencias()),
-                          );
-                        }
-                      },
-                      itemBuilder: (BuildContext context) =>
-                          <PopupMenuEntry<String>>[
-                        const PopupMenuItem<String>(
-                          value: 'Preferencias',
-                          child: Text('Preferencias'),
-                        ),
-                        const PopupMenuItem<String>(
-                          value: 'Salir',
-                          child: Text('Salir'),
-                        ),
-                      ],
-                    ),
-                  ],
+          //backgroundColor: const Color.fromARGB(255, 87, 88, 88),
+          elevation: 0.0,
+          title: const Text('DogHero'),
+          actions: <Widget>[
+            PopupMenuButton<String>(
+              onSelected: (String result) async {
+                if (result == 'Salir') {
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                  await _auth.signOut();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => SplashScreen()),
+                  );
+                } else if (result == 'Preferencias') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Preferencias()),
+                  );
+                }
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                const PopupMenuItem<String>(
+                  value: 'Preferencias',
+                  child: Text('Preferencias'),
                 ),
+                const PopupMenuItem<String>(
+                  value: 'Salir',
+                  child: Text('Salir'),
+                ),
+              ],
+            ),
+          ],
+        ),
         body: _buildBody(),
         bottomNavigationBar: CurvedNavigationBar(
           key: _bottomNavigationKey,
           index: 0,
-          backgroundColor: const Color.fromARGB(255, 87, 88,88),
+          backgroundColor: const Color.fromARGB(255, 87, 88, 88),
           height: 50.0,
-           //placeholder this need to be changed to our color palette
+          //placeholder this need to be changed to our color palette
           items: const <Widget>[
             Icon(Icons.list, size: 30, color: Colors.black45),
             Icon(Icons.map, size: 30, color: Colors.black45),
@@ -359,11 +361,9 @@ class _TestState extends State<Test> {
                   MaterialPageRoute(builder: (context) => Maps()),
                 );
               }
-              
             });
           },
           letIndexChange: (value) => true,
-        )
-  );
+        ));
   }
 }

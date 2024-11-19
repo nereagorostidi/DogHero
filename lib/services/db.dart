@@ -189,14 +189,12 @@ class DatabaseService {
     }
   }
 
-  // Método para actualizar el estado del botón
   Future<void> updateDogButtonState(String dogId, bool isEnabled) async {
     try {
       DocumentReference dogDoc =
           FirebaseFirestore.instance.collection('dogs').doc(dogId);
-
       await dogDoc.update({'buttonEnabled': isEnabled});
-      print('Estado del botón actualizado correctamente en Firebase.');
+      print('El estado del botón se actualizó correctamente.');
     } catch (e) {
       print('Error al actualizar el estado del botón: $e');
       throw Exception('No se pudo actualizar el estado del botón.');
