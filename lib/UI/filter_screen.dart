@@ -91,7 +91,7 @@ class _FilterScreenState extends State<FilterScreen> {
       'sex': _translateValues(_selectedSex),
       'size': _translateValues(_selectedSize),
       'age': _translateValues(_selectedAge),
-      'energyLevel': _translateValues(_selectedEnergyLevel),
+      //'energyLevel': _translateValues(_selectedEnergyLevel),
     });
   }
 
@@ -106,14 +106,16 @@ class _FilterScreenState extends State<FilterScreen> {
             _buildFilterRow("Sexo", ['Macho', 'Hembra'], _selectedSex),
             const SizedBox(height: 13.0),
             // Fila de filtros para "Tamaño"
-            _buildFilterRow("Tamaño", ['Pequeño', 'Mediano', 'Grande'], _selectedSize),
+            _buildFilterRow(
+                "Tamaño", ['Pequeño', 'Mediano', 'Grande'], _selectedSize),
             const SizedBox(height: 13.0),
             // Fila de filtros para "Edad"
-            _buildFilterRow("Edad", ['Cachorro', 'Adulto', 'Senior'], _selectedAge),
-            const SizedBox(height: 13.0),
-            // Fila de filtros para "Nivel de energía"
-            _buildFilterRow("Nivel energía", ['Baja', 'Media', 'Alta'], _selectedEnergyLevel),
+            _buildFilterRow(
+                "Edad", ['Cachorro', 'Adulto', 'Senior'], _selectedAge),
             const Spacer(),
+            // Fila de filtros para "Nivel de energía"
+            //_buildFilterRow("Nivel energía", ['Baja', 'Media', 'Alta'], _selectedEnergyLevel),
+            //const Spacer(),
             // Botones para aplicar o borrar filtros
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -121,19 +123,20 @@ class _FilterScreenState extends State<FilterScreen> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(30.0),
                   child: MaterialButton(
-                    minWidth: 140.0,
+                    //minWidth: 140.0,
                     color: Theme.of(context).colorScheme.secondary,
                     textColor: Colors.white,
-                    onPressed: _applyFilters, // Aplica los filtros
-                    child: const Text('Aplicar Filtros'),
+                    onPressed: _clearFilters, // Aplica los filtros
+                    child: const Text('Borrar Filtros'),
                   ),
                 ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(30.0),
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(foregroundColor: Colors.white),
-                    onPressed: _clearFilters, // Borra los filtros
-                    child: const Text('Borrar Filtros'),
+                    style:
+                        ElevatedButton.styleFrom(foregroundColor: Colors.white),
+                    onPressed: _applyFilters, // Borra los filtros
+                    child: const Text('Aplicar Filtros'),
                   ),
                 ),
               ],
@@ -154,7 +157,8 @@ class _FilterScreenState extends State<FilterScreen> {
   }
 
   // Construye una fila de filtros con checkboxes
-  Widget _buildFilterRow(String title, List<String> values, Set<String> selectedValues) {
+  Widget _buildFilterRow(
+      String title, List<String> values, Set<String> selectedValues) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -175,9 +179,11 @@ class _FilterScreenState extends State<FilterScreen> {
                   onChanged: (bool? newValue) {
                     setState(() {
                       if (newValue == true) {
-                        selectedValues.add(translatedValue); // Agrega el valor traducido
+                        selectedValues
+                            .add(translatedValue); // Agrega el valor traducido
                       } else {
-                        selectedValues.remove(translatedValue); // Elimina el valor traducido
+                        selectedValues.remove(
+                            translatedValue); // Elimina el valor traducido
                       }
                     });
                   },

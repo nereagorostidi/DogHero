@@ -40,13 +40,16 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
       var dogData = await dbService.getDogData(widget.dog.id);
 
       setState(() {
-        // Actualiza el estado del botón y el estado del perro
-        _isButtonEnabled =
-            (dogData['status'] ?? 'ready-to-adopt') == "ready-to-adopt" &&
-                (dogData['buttonEnabled'] ?? true);
-        widget.dog.status =
-            dogData['status'] ?? 'ready-to-adopt'; // Estado del perro
-        // Actualiza el título dinámico según el estado del perro
+        // Actualiza el estado del perro
+        widget.dog.status = dogData['status'] ?? 'ready-to-adopt';
+        _isButtonEnabled = dogData['buttonEnabled'] ?? true;
+
+        // Si el estado del perro es "ready-to-adopt" y buttonEnabled es falso, actualízalo
+        if (widget.dog.status == "ready-to-adopt" && !_isButtonEnabled) {
+          dbService.updateDogButtonState(widget.dog.id, true);
+          _isButtonEnabled = true;
+        }
+
         if (widget.dog.status == "reservated") {
           titleText = "RESERVADO";
         } else if (widget.dog.status == "adopted") {
@@ -234,8 +237,7 @@ class DogDetailHeaderState extends State<DogDetailHeader> {
                         .colorScheme
                         .secondary
                         .withOpacity(0.5), // Color para botón deshabilitado
-                    onPressed: (widget.dog.status == "ready-to-adopt" &&
-                            _isButtonEnabled)
+                    onPressed: _isButtonEnabled
                         ? () {
                             // Mostrar el AlertDialog
                             showDialog(
