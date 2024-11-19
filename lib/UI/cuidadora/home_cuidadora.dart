@@ -31,7 +31,7 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   final _formkey = GlobalKey<FormState>();
-  int _age = 0;
+  String _age = '';
   String _name = '';
   String _color = '';
   String _description = '';
@@ -41,6 +41,7 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
   List<String> _images = [];
   String _location = '';
   String _status = 'ready-to-adopt';
+  String _email = '';
   
   File? _imageFile;
   String _imageUrl = '';
@@ -221,14 +222,29 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
                                           },
                                         ),
                                         SizedBox(height: 16.0),
-                                        TextFormField(
+                                        DropdownButtonFormField<String>(
                                           decoration: textFieldDecoration.copyWith(
                                             hintText: 'Edad',
-                                            suffixIcon: Icon(Icons.cake),
+                                            suffixIcon: Icon(Icons.straighten),
                                           ),
-                                          validator: (value) => value!.isEmpty ? 'Edad' : null,
+                                          value: _age.isEmpty ? null : (_age == 'puppy' ? 'cachorro' : (_age == 'adult' ? 'adulto' : 'senior')),
+                                          items: ['cachorro', 'adulto', 'senior'].map((String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          }).toList(),
+                                          validator: (value) => value == null ? 'Enter an age' : null,
                                           onChanged: (value) {
-                                            setState(() => _age = int.tryParse(value)!);
+                                            setState(() {
+                                              if (value == 'cachorro') {
+                                                _age = 'puppy';
+                                              } else if (value == 'adulto') {
+                                                _age = 'adult';
+                                              } else {
+                                                _age = 'senior';
+                                              }
+                                            });
                                           },
                                         ),
                                         SizedBox(height: 16.0),
@@ -353,6 +369,7 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
                                         SizedBox(height: 16.0),
                                         ElevatedButton(
                                           onPressed: () async {
+                                                print(_age);
                                             if (_formkey.currentState!.validate()) {
                                               final dogData = {
                                                 'name': _name,
@@ -367,6 +384,7 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
                                                 'timestamp': FieldValue.serverTimestamp(),
                                               };
                                               _location = (await DatabaseService(uid: user.uid).getUserLocation())!;
+                                              _email = (await DatabaseService(uid: user.uid).getUserEmail())!;
                                               DatabaseService(uid: user.uid).createDog(
                                                 name: _name,
                                                 age: _age,
@@ -379,6 +397,7 @@ class _CuidadoraHomeState extends State<CuidadoraHome> {
                                                 userId: user.uid,
                                                 location: _location,
                                                 status: _status,
+                                                email: _email,
                                                 );
                                               ScaffoldMessenger.of(context).showSnackBar(
                                                 const SnackBar(content: Text('Perro subido con exito')),

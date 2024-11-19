@@ -43,7 +43,8 @@ Stream<dogheroUser.User?> get user {
           phone: 0,
           whyAdopt: '', // Proporciona valores predeterminados
           makeHappy: '', // Proporciona valores predeterminados
-          fcmToken: null, // Si no tienes un FCM token en este contexto
+          fcmToken: null,
+          email: '', // Si no tienes un FCM token en este contexto
       );;// missing 1st time check
       print("user created");
       return _userfromfirebase(user);
