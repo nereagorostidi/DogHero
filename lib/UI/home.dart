@@ -49,12 +49,14 @@ class _HomeState extends State<Home> {
                       onSelected: (String result) async {
                         if (result == 'Salir') {
                           // Remove the navigation stack before signing out
-                          Navigator.of(context).popUntil((route) => route.isFirst);
+                          Navigator.of(context)
+                              .popUntil((route) => route.isFirst);
                           await _auth.signOut();
                           Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => SplashScreen()),
-                        );
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SplashScreen()),
+                          );
                         } else if (result == 'Preferencias') {
                           Navigator.push(
                             context,
@@ -121,7 +123,7 @@ class _HomeState extends State<Home> {
                       key: _bottomNavigationKey,
                       index: _page,
                       animationDuration: const Duration(milliseconds: 200),
-                      backgroundColor: const Color.fromARGB(255, 87, 88, 88),
+                      backgroundColor: const Color.fromARGB(255, 190, 195, 195),
                       height: 50.0,
                       //backgroundColor: const Color.fromARGB(255, 87, 88, 88),
                       items: const <Widget>[
@@ -147,14 +149,12 @@ class _HomeState extends State<Home> {
                               context,
                               MaterialPageRoute(builder: (context) => Home()),
                             );
-                          }
-                            else if (index == 2) {
+                          } else if (index == 2) {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(builder: (context) => Maps()),
                             );
                           }
-
                         });
                       },
                       letIndexChange: (value) => true,
